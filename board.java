@@ -30,5 +30,8 @@ public class Board {
     comp1Turn();
     player2Turn();
     comp2Turn();
+    if(endGame()) {
+      finish = 1;
+    }
   }
 }
