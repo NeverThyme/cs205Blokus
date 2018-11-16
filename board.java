@@ -10,7 +10,10 @@ class Square {
   Color color;
 }
 
-public class Board {
+public class Board extends Test{
+  //Turn counter: 1 = player, 2 = comp1, 3 = player, 4 = comp2
+  int turnCounter = 0;
+
   void makeBoard(){
   //Create a gameboard, and fill it with white squares.
     Square[][] gameboard = new Square[20][20];
@@ -23,6 +26,7 @@ public class Board {
     }
 
     int finish = 1;
+    int turnCounter = 1;
     while (finish == 0) {
       player1Turn();
       comp1Turn();
