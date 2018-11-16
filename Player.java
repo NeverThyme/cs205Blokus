@@ -10,7 +10,7 @@ public class Player extends Board {
 //======================================================================================================================
 
     public Player(Color color){
-        pieceColor = color
+        pieceColor = color;
     }
 
 //======================================================================================================================
@@ -20,9 +20,9 @@ public class Player extends Board {
         //prompt player to pick a piece
         System.out.println("Pick a piece to play.");
 
-        //player chooes piece
+        //player chooses piece
         //until GUI this will be a random piece
-        Square[] player1Pick = pieces[1]
+        Square[] player1Pick = pieces[1];
 
         //player chooses location for piece
         int player1XPick = chooseXLocation();
@@ -36,7 +36,7 @@ public class Player extends Board {
         if (canPlacePiece){
             placePiece(player1XPick, player1YPick, player1Pick, pieceColor);
         }else{
-            System.out.println("The piece does not fit there.")
+            System.out.println("The piece does not fit there.");
         }
 
 
@@ -124,6 +124,7 @@ public class Player extends Board {
 
     int chooseYLocation(){
         System.out.println("Pick a row for your piece (1-20): ");
+        Scanner input = new Scanner(System.in);
         int player1YPick = input.nextInt();
         while (player1YPick < 1 || player1YPick > 20){
             System.out.println("Please enter a value 1-20: ");
