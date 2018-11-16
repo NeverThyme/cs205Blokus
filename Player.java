@@ -36,7 +36,7 @@ public class Player extends Board {
         if (canPlacePiece){
             placePiece(player1XPick, player1YPick, player1Pick, pieceColor);
         }else{
-            System.out.println("The piece does not fit there.");
+            System.out.println("The piece does not fit there.")
         }
 
 
