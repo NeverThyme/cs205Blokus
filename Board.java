@@ -1,7 +1,6 @@
 import java.util.*;
 import java.io.*;
 import java.awt.Color;
-import org.eclipse.wb.swing.Square;
 
 public class Board{
   
