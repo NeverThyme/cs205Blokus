@@ -2,14 +2,6 @@ import java.util.*;
 import java.io.*;
 import java.awt.Color;
 
-class Square {
-  boolean taken = false;
-  int value = 0;
-  int xLoc;
-  int yLoc;
-  Color color = new Color(0,0,0);
-}
-
 public class Board{
   
 
