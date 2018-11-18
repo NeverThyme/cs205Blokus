@@ -4,7 +4,7 @@ import java.awt.Color;
 
 public class Player {
 
-    int points;
+    int points = 0;
     Color pieceColor;
     Square[][] pieces = new Square [1][1];
 
@@ -177,9 +177,7 @@ public class Player {
         	board.setSquare(s.xLoc, s.yLoc, s.color);
         	
             points += 1;
-            
-            
-			
+
         }
         return board;
     }
