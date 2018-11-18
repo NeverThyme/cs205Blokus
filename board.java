@@ -45,5 +45,12 @@ void setSquare(int x, int y , Color color) {
 	 
 }
 
+Square getSquare(int x, int y) {
+	
+	return gameBoard[x][y];
+	
+	 
+}
+
 
 }
