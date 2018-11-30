@@ -1,6 +1,7 @@
 import java.lang.Object;
 import java.util.Scanner;
 import java.awt.Color;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class Player {
 
@@ -61,7 +62,7 @@ public class Player {
             canPlacePiece = checkPlacement(player1XPick, player1YPick, player1Pick, board);
         }
         //update pieces array
-        //currently does nothign because we only have one piece which is a single square
+        //currently does nothing because we only have one piece which is a single square
         removePiece(player1Pick);
        
 
@@ -71,49 +72,28 @@ public class Player {
 
     }
 
-//======================================================================================================================
+    public Board computerTurn(Board board) {
+    	Square[] computerPiece = pieces[0];
+    	int x,y;
+    	x = computerPick();
+    	y = computerPick();
+    	
+        boolean canPlacePiece = checkPlacement(x, y, computerPiece, board);
 
-    /*
-    public void player2Turn() {
-
-        //prompt player to pick a piece
-        System.out.println("Pick a piece to play.");
-
-        //player chooes piece
-        //random until GUI
-        Square[] player2Pick = pieces[1];
-
-        //player chooses location for piece
-        int player2XPick = chooseXLocation();
-        int player2YPick = chooseYLocation();
-
-        //validate location
-        boolean canPlacePiece = checkPlacement(player2XPick, player2YPick, player2Pick);
-
-        if(canPlacePiece){
-            placePiece(player2XPick, player2YPick, player2Pick, pieceColor);
-        }else{
-            System.out.println("The piece does not fit there.");
-        }
-
-        while (!canPlacePiece){
-            player2XPick = chooseXLocation();
-            player2YPick = chooseYLocation();
-
-            //validate location
-            canPlacePiece = checkPlacement(player2XPick, player2YPick, player2Pick);
-        }
-
-        //update pieces array
-        removePiece(player2Pick);
-
-
-
-        System.out.println("Player 2 went.");
-
-
+    	if (canPlacePiece) {
+    		board = placePiece(x, y, computerPiece, pieceColor, board);
+    	}
+    	while(!canPlacePiece) {
+    		x = computerPick();
+    		y = computerPick();
+    		
+    		canPlacePiece = checkPlacement(x, y, computerPiece, board);
+    	}
+    	
+    	removePiece(computerPiece);
+    	System.out.println("Computer went.");
+    	return board;
     }
-    */
 
 //======================================================================================================================
 
@@ -135,6 +115,11 @@ public class Player {
             player1XPick = input.nextInt();
         }
         return player1XPick;
+    }
+    
+    int computerPick() {
+    	int randNum = ThreadLocalRandom.current().nextInt(0,20);
+    	return randNum;
     }
 
 
