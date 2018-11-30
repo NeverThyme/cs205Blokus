@@ -51,56 +51,10 @@ public class Blokus {
 			         }
 			         else {
 			        	 System.out.printf("o");
-			      }
+			         }
 			      }
 			      System.out.println();
 			   }
-			
-			
-		
-			
-			
-			
-		}
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		 // int turnCounter = 1;
-		  //int finish = 0;
-
-		  
-
-		  /* honestly dont know what up wiht this or hgow to fix it
-		  while (finish == 0) {
-		    switch turnCounter {
-		      case 1 {
-		        player1Turn();
-		        ++turnCounter;
-		      }
-		      case 2 {
-		        player2Turn();
-		        turnCounter = 1;
-		      }
-		      if(endGame()) {
-		        finish = 0;
-		      } 
-		    }
-		  }
-		
-		*/
-		
-		
+		}	
 	}
-	
-	
-	
-	
 }
