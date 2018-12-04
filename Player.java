@@ -13,7 +13,7 @@ public class Player {
 
     public Player(Color color){
         pieceColor = color;
-        
+        Square[][] piece = new Square [0][0];
 
     }
 
@@ -189,23 +189,21 @@ public class Player {
         
     }
     
-    void pieceOne (int locationX,int locationY) {
-    	pieces[locationX][locationY];
+    Square pieceOne (int locationX,int locationY) {
+    	
+    	return pieces[locationX][locationY];
     
     }
 
-    void pieceTwo (int locationX,int locationY) {
-    	pieces[locationX][locationY];
-    	pieces[locationX+1][locationY];
+    Square[] pieceTwo (int locationX,int locationY) {
+    	return [pieces[locationX][locationY], pieces[locationX+1][locationY]];
     }
     
-    void pieceThree (int locationX,int locationY) {
-    	pieces[locationX][locationY];
-    	pieces[locationX+1][locationY];
-    	pieces[locationX+1][locationY+1];
+    Square[] pieceThree (int locationX,int locationY) {
+    	return [pieces[locationX][locationY], pieces[locationX+1][locationY], pieces[locationX+1][locationY+1]];
     }
     
-    void pieceFour (int locationX,int locationY) {
+    Square[] pieceFour (int locationX,int locationY) {
     	pieces[locationX][locationY];
     	pieces[locationX+1][locationY];
     	pieces[locationX-1][locationY];
