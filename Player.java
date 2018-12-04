@@ -14,9 +14,7 @@ public class Player {
     public Player(Color color){
         pieceColor = color;
         
-        //default single square added until all pieces are added.
-        
-        pieces[0][0] = new Square();
+
     }
 
     //temp default constructor to fix computer heirarchy problems
@@ -186,171 +184,161 @@ public class Player {
     void removePiece(Square[] piece){
         for(int i = 0; i < pieces.length; i++){
         	
-        	/* commented out until comparePieces implemented
-            if(comparePieces(pieces[i], piece)){
-                pieces[i] = null;
-               
-            }
-            */
         }
             
         
     }
     
     void pieceOne (int locationX,int locationY) {
-    	pieces[locationX][locationY].setColor();
+    	pieces[locationX][locationY];
     
     }
 
     void pieceTwo (int locationX,int locationY) {
-    	pieces[locationX][locationY].setColor();
-    	pieces[locationX+1][locationY].setColor();
+    	pieces[locationX][locationY];
+    	pieces[locationX+1][locationY];
     }
     
     void pieceThree (int locationX,int locationY) {
-    	pieces[locationX][locationY].setColor();
-    	pieces[locationX+1][locationY].setColor();
-    	pieces[locationX+1][locationY+1].setColor();
+    	pieces[locationX][locationY];
+    	pieces[locationX+1][locationY];
+    	pieces[locationX+1][locationY+1];
     }
     
     void pieceFour (int locationX,int locationY) {
-    	pieces[locationX][locationY].setColor();
-    	pieces[locationX+1][locationY].setColor();
-    	pieces[locationX-1][locationY].setColor();
+    	pieces[locationX][locationY];
+    	pieces[locationX+1][locationY];
+    	pieces[locationX-1][locationY];
     }
     
     void pieceFive (int locationX,int locationY) {
-    	pieces[locationX][locationY].setColor();
-    	pieces[locationX+1][locationY].setColor();
-    	pieces[locationX+1][locationY+1].setColor();
-    	pieces[locationX][locationY+1].setColor();
+    	pieces[locationX][locationY];
+    	pieces[locationX+1][locationY];
+    	pieces[locationX+1][locationY+1];
+    	pieces[locationX][locationY+1];
     }
     
     void pieceSix (int locationX,int locationY) {
-    	pieces[locationX][locationY].setColor();
-    	pieces[locationX+1][locationY+1].setColor();
-    	pieces[locationX-1][locationY+1].setColor();
-    	pieces[locationX][locationY+1].setColor();
+    	pieces[locationX][locationY];
+    	pieces[locationX+1][locationY+1];
+    	pieces[locationX-1][locationY+1];
+    	pieces[locationX][locationY+1];
     }
     
     void pieceSeven (int locationX,int locationY) {
-    	pieces[locationX][locationY].setColor();
-    	pieces[locationX-1][locationY].setColor();
-    	pieces[locationX+1][locationY].setColor();
-    	pieces[locationX+2][locationY].setColor();
+    	pieces[locationX][locationY];
+    	pieces[locationX-1][locationY];
+    	pieces[locationX+1][locationY];
+    	pieces[locationX+2][locationY];
     }
     
     void pieceEight (int locationX,int locationY) {
-    	pieces[locationX][locationY].setColor();
-    	pieces[locationX-1][locationY].setColor();
-    	pieces[locationX+1][locationY].setColor();
-    	pieces[locationX+1][locationY-1].setColor();
+    	pieces[locationX][locationY];
+    	pieces[locationX-1][locationY];
+    	pieces[locationX+1][locationY];
+    	pieces[locationX+1][locationY-1];
     }
     
     void pieceNine (int locationX,int locationY) {
-    	pieces[locationX][locationY].setColor();
-    	pieces[locationX-1][locationY].setColor();
-    	pieces[locationX][locationY-1].setColor();
-    	pieces[locationX+1][locationY-1].setColor();
+    	pieces[locationX][locationY];
+    	pieces[locationX-1][locationY];
+    	pieces[locationX][locationY-1];
+    	pieces[locationX+1][locationY-1];
     }
 
     void pieceTen (int locationX,int locationY) {
-    	pieces[locationX][locationY].setColor();
-    	pieces[locationX-1][locationY].setColor();
-    	pieces[locationX-1][locationY-1].setColor();
-    	pieces[locationX+1][locationY].setColor();
-    	pieces[locationX+2][locationY].setColor();
+    	pieces[locationX][locationY];
+    	pieces[locationX-1][locationY];
+    	pieces[locationX-1][locationY-1];
+    	pieces[locationX+1][locationY];
+    	pieces[locationX+2][locationY];
     }
     
     void pieceEleven (int locationX,int locationY) {
-    	pieces[locationX][locationY].setColor();
-    	pieces[locationX][locationY-1].setColor();
-    	pieces[locationX][locationY-2].setColor();
-    	pieces[locationX-1][locationY].setColor();
-    	pieces[locationX+1][locationY].setColor();
+    	pieces[locationX][locationY];
+    	pieces[locationX][locationY-1];
+    	pieces[locationX][locationY-2];
+    	pieces[locationX-1][locationY];
+    	pieces[locationX+1][locationY];
     }
     
     void pieceTwelve (int locationX,int locationY) {
-    	pieces[locationX][locationY].setColor();
-    	pieces[locationX][locationY-1].setColor();
-    	pieces[locationX][locationY-2].setColor();
-    	pieces[locationX+1][locationY].setColor();
-    	pieces[locationX+2][locationY].setColor();
+    	pieces[locationX][locationY];
+    	pieces[locationX][locationY-1];
+    	pieces[locationX][locationY-2];
+    	pieces[locationX+1][locationY];
+    	pieces[locationX+2][locationY];
     }
     
     void pieceThirteen (int locationX,int locationY) {
-    	pieces[locationX][locationY].setColor();
-    	pieces[locationX-1][locationY].setColor();
-    	pieces[locationX][locationY-1].setColor();
-    	pieces[locationX+1][locationY-1].setColor();
-    	pieces[locationX+2][locationY-1].setColor();
+    	pieces[locationX][locationY];
+    	pieces[locationX-1][locationY];
+    	pieces[locationX][locationY-1];
+    	pieces[locationX+1][locationY-1];
+    	pieces[locationX+2][locationY-1];
     }
     
     void pieceFourteen (int locationX,int locationY) {
-    	pieces[locationX][locationY].setColor();
-    	pieces[locationX-1][locationY].setColor();
-    	pieces[locationX+1][locationY].setColor();
-    	pieces[locationX-1][locationY+1].setColor();
-    	pieces[locationX+1][locationY-1].setColor();
+    	pieces[locationX][locationY];
+    	pieces[locationX-1][locationY];
+    	pieces[locationX+1][locationY];
+    	pieces[locationX-1][locationY+1];
+    	pieces[locationX+1][locationY-1];
     }
     
     void pieceFifteen (int locationX,int locationY) {
-    	pieces[locationX][locationY].setColor();
-    	pieces[locationX][locationY-1].setColor();
-    	pieces[locationX][locationY-2].setColor();
-    	pieces[locationX][locationY+1].setColor();
-    	pieces[locationX][locationY+2].setColor();
+    	pieces[locationX][locationY];
+    	pieces[locationX][locationY-1];
+    	pieces[locationX][locationY-2];
+    	pieces[locationX][locationY+1];
+    	pieces[locationX][locationY+2];
     }
     
     void pieceSixteen (int locationX,int locationY) {
-    	pieces[locationX][locationY].setColor();
-    	pieces[locationX][locationY-1].setColor();
-    	pieces[locationX][locationY+1].setColor();
-    	pieces[locationX+1][locationY].setColor();
-    	pieces[locationX+1][locationY+1].setColor();
+    	pieces[locationX][locationY];
+    	pieces[locationX][locationY-1];
+    	pieces[locationX][locationY+1];
+    	pieces[locationX+1][locationY];
+    	pieces[locationX+1][locationY+1];
     }
     
     void peiceSeventeen (int locationX,int locationY) {
-    	pieces[locationX][locationY].setColor();
-    	pieces[locationX-1][locationY].setColor();
-    	pieces[locationX-1][locationY+1].setColor();
-    	pieces[locationX][locationY-1].setColor();
-    	pieces[locationX+1][locationY-1].setColor();
+    	pieces[locationX][locationY];
+    	pieces[locationX-1][locationY];
+    	pieces[locationX-1][locationY+1];
+    	pieces[locationX][locationY-1];
+    	pieces[locationX+1][locationY-1];
     }
     
     void pieceEighteen (int locationX,int locationY) {
-    	pieces[locationX][locationY].setColor();
-    	pieces[locationX][locationY-1].setColor();
-    	pieces[locationX+1][locationY-1].setColor();
-    	pieces[locationX][locationY+1].setColor();
-    	pieces[locationX+1][locationY+1].setColor();
+    	pieces[locationX][locationY];
+    	pieces[locationX][locationY-1];
+    	pieces[locationX+1][locationY-1];
+    	pieces[locationX][locationY+1];
+    	pieces[locationX+1][locationY+1];
     }
     
     void pieceNineteen (int locationX,int locationY) {
-    	pieces[locationX][locationY].setColor();
-    	pieces[locationX-1][locationY].setColor();
-    	pieces[locationX][locationY+1].setColor();
-    	pieces[locationX][locationY-1].setColor();
-    	pieces[locationX+1][locationY-1].setColor();
+    	pieces[locationX][locationY];
+    	pieces[locationX-1][locationY];
+    	pieces[locationX][locationY+1];
+    	pieces[locationX][locationY-1];
+    	pieces[locationX+1][locationY-1];
     }
     
     void pieceTwenty (int locationX,int locationY) {
-    	pieces[locationX][locationY].setColor();
-    	pieces[locationX-1][locationY].setColor();
-    	pieces[locationX+1][locationY].setColor();
-    	pieces[locationX][locationY-1].setColor();
-    	pieces[locationX][locationY+1].setColor();
+    	pieces[locationX][locationY];
+    	pieces[locationX-1][locationY];
+    	pieces[locationX+1][locationY];
+    	pieces[locationX][locationY-1];
+    	pieces[locationX][locationY+1];
     }
     
     void pieceTwentyOne (int locationX,int locationY) {
-    	pieces[locationX][locationY].setColor();
-    	pieces[locationX][locationY-1].setColor();
-    	pieces[locationX-1][locationY].setColor();
-    	pieces[locationX+1][locationY].setColor();
-    	pieces[locationX+2][locationY].setColor();
+    	pieces[locationX][locationY];
+    	pieces[locationX][locationY-1];
+    	pieces[locationX-1][locationY];
+    	pieces[locationX+1][locationY];
+    	pieces[locationX+2][locationY];
     }
-
-
-
-
 }
