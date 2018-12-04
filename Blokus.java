@@ -7,7 +7,9 @@ public class Blokus {
 		
 		// field init
 		Color tempColorRed = new Color(1,0,0);
+		Color tempColorBlue = new Color(0,0,1);
 		Player player = new Player(tempColorRed);
+		Player computer = new Player(tempColorBlue);
 		
 		Board board = new Board();
 		board.makeBoard();
@@ -35,6 +37,7 @@ public class Blokus {
 			int y = 0;
 			
 			board = player.playerTurn(board);
+			board = computer.computerTurn(board);
 			
 		
 			//just quickly printing the board so we can test things until i finish hooking up gui
