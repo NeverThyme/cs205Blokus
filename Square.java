@@ -1,4 +1,3 @@
-
 import java.awt.Color;
 
 public class Square {
@@ -16,6 +15,10 @@ public class Square {
   public Square(int x, int y) {
 	  xLoc = x;
 	  yLoc = y;
+}
+public void setXY(int player1xPick, int player1yPick) {
+	xLoc = player1xPick;
+	yLoc = player1yPick;
 }
 
 }
