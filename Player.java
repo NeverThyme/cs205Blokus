@@ -2,6 +2,7 @@ import java.lang.Object;
 import java.util.Scanner;
 import java.awt.Color;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.concurrent.TimeUnit;
 
 public class Player {
 
@@ -13,8 +14,9 @@ public class Player {
 
     public Player(Color color){
         pieceColor = color;
-        Square[][] piece = new Square [0][0];
+        
         pieces[0][0] = new Square();
+        
     }
 
     //temp default constructor to fix computer heirarchy problems
@@ -23,7 +25,7 @@ public class Player {
     }
 //======================================================================================================================
 
-    public Board playerTurn(Board board) {
+    public Board playerTurn(Board board , Gui frame) {
 
         //prompt player to pick a piece
         System.out.println("Pick a piece to play.");
@@ -31,11 +33,26 @@ public class Player {
         //player chooses piece
         //until GUI this will be a random piece
         Square[] player1Pick = pieces[0];
+        
+        while(!frame.getPickReady())
+        {
+        	try {
+				TimeUnit.SECONDS.sleep(1);
+			} catch (InterruptedException e) {
+				
+				e.printStackTrace();
+			}
+        }
+        
+        
 
         //player chooses location for piece
-        int player1XPick = chooseXLocation();
-        int player1YPick = chooseYLocation();
-
+        int player1XPick = frame.getXPick();
+        int player1YPick = frame.getYPick();
+        
+        frame.pickReady = false;
+        
+        player1Pick[0].setXY(player1XPick, player1YPick);
      
 
         //validate location
@@ -53,8 +70,25 @@ public class Player {
 
         while (!canPlacePiece){
 
-            player1XPick = chooseXLocation();
-            player1YPick = chooseYLocation();
+        	 while(!frame.getPickReady())
+             {
+             	try {
+     				TimeUnit.SECONDS.sleep(1);
+     			} catch (InterruptedException e) {
+     				
+     				e.printStackTrace();
+     			}
+             }
+             
+             
+
+             //player chooses location for piece
+             player1XPick = frame.getXPick();
+             player1YPick = frame.getYPick();
+             
+             frame.pickReady = false;
+             
+             player1Pick[0].setXY(player1XPick, player1YPick);
 
             //validate location
             canPlacePiece = checkPlacement(player1XPick, player1YPick, player1Pick, board);
@@ -188,7 +222,6 @@ public class Player {
             
         
     }
-    
     Square[] pieceOne (int locationX,int locationY) {
     	Square[] tempPiece = new Square[1];
     	tempPiece[0] = new Square(locationX,locationY);
