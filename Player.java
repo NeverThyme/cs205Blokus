@@ -14,7 +14,7 @@ public class Player {
     public Player(Color color){
         pieceColor = color;
         Square[][] piece = new Square [0][0];
-
+        pieces[0][0] = new Square();
     }
 
     //temp default constructor to fix computer heirarchy problems
@@ -189,154 +189,214 @@ public class Player {
         
     }
     
-    Square pieceOne (int locationX,int locationY) {
-    	
-    	return pieces[locationX][locationY];
+    Square[] pieceOne (int locationX,int locationY) {
+    	Square[] tempPiece = new Square[1];
+    	tempPiece[0] = new Square(locationX,locationY);
+    	return tempPiece;
     
     }
 
     Square[] pieceTwo (int locationX,int locationY) {
-    	return [pieces[locationX][locationY], pieces[locationX+1][locationY]];
+    	Square[] tempPiece = new Square[2];
+    	tempPiece[0] = new Square(locationX,locationY);
+    	tempPiece[1] = new Square(locationX+1,locationY);
+    	return tempPiece;
     }
     
     Square[] pieceThree (int locationX,int locationY) {
-    	return [pieces[locationX][locationY], pieces[locationX+1][locationY], pieces[locationX+1][locationY+1]];
+    	 
+    	Square[] tempPiece = new Square[3];
+    	tempPiece[0] = new Square(locationX,locationY);
+    	tempPiece[1] = new Square(locationX+1,locationY);
+    	tempPiece[2] = new Square(locationX+1,locationY+1);
+    	return tempPiece;
+    	
+    	
     }
     
     Square[] pieceFour (int locationX,int locationY) {
-    	pieces[locationX][locationY];
-    	pieces[locationX+1][locationY];
-    	pieces[locationX-1][locationY];
+    	Square[] tempPiece = new Square[3];
+    	tempPiece[0] = new Square(locationX,locationY);
+    	tempPiece[1] = new Square(locationX+1,locationY);
+    	tempPiece[2] = new Square(locationX-1,locationY);
+    	return tempPiece;
     }
     
-    void pieceFive (int locationX,int locationY) {
-    	pieces[locationX][locationY];
-    	pieces[locationX+1][locationY];
-    	pieces[locationX+1][locationY+1];
-    	pieces[locationX][locationY+1];
+    Square[] pieceFive (int locationX,int locationY) {
+    	Square[] tempPiece = new Square[4];
+    	tempPiece[0] = new Square(locationX,locationY);
+    	tempPiece[1] = new Square(locationX+1,locationY);
+    	tempPiece[2] = new Square(locationX+1,locationY+1);
+    	tempPiece[3] = new Square(locationX,locationY+1);
+    	return tempPiece;
     }
     
-    void pieceSix (int locationX,int locationY) {
-    	pieces[locationX][locationY];
-    	pieces[locationX+1][locationY+1];
-    	pieces[locationX-1][locationY+1];
-    	pieces[locationX][locationY+1];
+    Square[] pieceSix (int locationX,int locationY) {
+    	Square[] tempPiece = new Square[4];
+    	tempPiece[0] = new Square(locationX,locationY);
+    	tempPiece[1] = new Square(locationX+1,locationY+1);
+    	tempPiece[2] = new Square(locationX-1,locationY+1);
+    	tempPiece[3] = new Square(locationX,locationY+1);
+    	return tempPiece;
     }
     
-    void pieceSeven (int locationX,int locationY) {
-    	pieces[locationX][locationY];
-    	pieces[locationX-1][locationY];
-    	pieces[locationX+1][locationY];
-    	pieces[locationX+2][locationY];
+    Square[] pieceSeven (int locationX,int locationY) {
+    	Square[] tempPiece = new Square[4];
+    	tempPiece[0] = new Square(locationX,locationY);
+    	tempPiece[1] = new Square(locationX-1,locationY);
+    	tempPiece[2] = new Square(locationX+1,locationY+1);
+    	tempPiece[3] = new Square(locationX+2,locationY+1);
+    	return tempPiece;
     }
     
-    void pieceEight (int locationX,int locationY) {
-    	pieces[locationX][locationY];
-    	pieces[locationX-1][locationY];
-    	pieces[locationX+1][locationY];
-    	pieces[locationX+1][locationY-1];
+    Square[] pieceEight (int locationX,int locationY) {
+    	Square[] tempPiece = new Square[4];
+    	tempPiece[0] = new Square(locationX,locationY);
+    	tempPiece[1] = new Square(locationX-1,locationY);
+    	tempPiece[2] = new Square(locationX+1,locationY);
+    	tempPiece[3] = new Square(locationX+1,locationY-1);
+    	return tempPiece;
+    	
     }
     
-    void pieceNine (int locationX,int locationY) {
-    	pieces[locationX][locationY];
-    	pieces[locationX-1][locationY];
-    	pieces[locationX][locationY-1];
-    	pieces[locationX+1][locationY-1];
+    Square[] pieceNine (int locationX,int locationY) {
+    	Square[] tempPiece = new Square[4];
+    	tempPiece[0] = new Square(locationX,locationY);
+    	tempPiece[1] = new Square(locationX-1,locationY);
+    	tempPiece[2] = new Square(locationX,locationY-1);
+    	tempPiece[3] = new Square(locationX+1,locationY-1);
+    	return tempPiece;
+    	
     }
 
-    void pieceTen (int locationX,int locationY) {
-    	pieces[locationX][locationY];
-    	pieces[locationX-1][locationY];
-    	pieces[locationX-1][locationY-1];
-    	pieces[locationX+1][locationY];
-    	pieces[locationX+2][locationY];
+    Square[] pieceTen (int locationX,int locationY) {
+    	Square[] tempPiece = new Square[5];
+    	tempPiece[0] = new Square(locationX,locationY);
+    	tempPiece[1] = new Square(locationX-1,locationY);
+    	tempPiece[2] = new Square(locationX-1,locationY-1);
+    	tempPiece[3] = new Square(locationX+1,locationY);
+    	tempPiece[4] = new Square(locationX+2,locationY);
+    	return tempPiece;
+    	
     }
     
-    void pieceEleven (int locationX,int locationY) {
-    	pieces[locationX][locationY];
-    	pieces[locationX][locationY-1];
-    	pieces[locationX][locationY-2];
-    	pieces[locationX-1][locationY];
-    	pieces[locationX+1][locationY];
+    Square[] pieceEleven (int locationX,int locationY) {
+    	Square[] tempPiece = new Square[5];
+    	tempPiece[0] = new Square(locationX,locationY);
+    	tempPiece[1] = new Square(locationX,locationY-1);
+    	tempPiece[2] = new Square(locationX,locationY-2);
+    	tempPiece[3] = new Square(locationX-1,locationY);
+    	tempPiece[4] = new Square(locationX+1,locationY);
+    	return tempPiece;
     }
     
-    void pieceTwelve (int locationX,int locationY) {
-    	pieces[locationX][locationY];
-    	pieces[locationX][locationY-1];
-    	pieces[locationX][locationY-2];
-    	pieces[locationX+1][locationY];
-    	pieces[locationX+2][locationY];
+    Square[] pieceTwelve (int locationX,int locationY) {
+    	Square[] tempPiece = new Square[5];
+    	tempPiece[0] = new Square(locationX,locationY);
+    	tempPiece[1] = new Square(locationX,locationY-1);
+    	tempPiece[2] = new Square(locationX,locationY-2);
+    	tempPiece[3] = new Square(locationX+1,locationY);
+    	tempPiece[4] = new Square(locationX+2,locationY);
+    	return tempPiece;
+    	
     }
     
-    void pieceThirteen (int locationX,int locationY) {
-    	pieces[locationX][locationY];
-    	pieces[locationX-1][locationY];
-    	pieces[locationX][locationY-1];
-    	pieces[locationX+1][locationY-1];
-    	pieces[locationX+2][locationY-1];
+    Square[] pieceThirteen (int locationX,int locationY) {
+    	Square[] tempPiece = new Square[5];
+    	tempPiece[0] = new Square(locationX,locationY);
+    	tempPiece[1] = new Square(locationX-1,locationY);
+    	tempPiece[2] = new Square(locationX,locationY-1);
+    	tempPiece[3] = new Square(locationX+1,locationY-1);
+    	tempPiece[4] = new Square(locationX+2,locationY-1);
+    	return tempPiece;
+    	
     }
     
-    void pieceFourteen (int locationX,int locationY) {
-    	pieces[locationX][locationY];
-    	pieces[locationX-1][locationY];
-    	pieces[locationX+1][locationY];
-    	pieces[locationX-1][locationY+1];
-    	pieces[locationX+1][locationY-1];
+    Square[] pieceFourteen (int locationX,int locationY) {
+    	Square[] tempPiece = new Square[5];
+    	tempPiece[0] = new Square(locationX,locationY);
+    	tempPiece[1] = new Square(locationX-1,locationY);
+    	tempPiece[2] = new Square(locationX+1,locationY);
+    	tempPiece[3] = new Square(locationX-1,locationY+1);
+    	tempPiece[4] = new Square(locationX+1,locationY-1);
+    	return tempPiece;
+    	
     }
     
-    void pieceFifteen (int locationX,int locationY) {
-    	pieces[locationX][locationY];
-    	pieces[locationX][locationY-1];
-    	pieces[locationX][locationY-2];
-    	pieces[locationX][locationY+1];
-    	pieces[locationX][locationY+2];
+    Square[] pieceFifteen (int locationX,int locationY) {
+    	Square[] tempPiece = new Square[5];
+    	tempPiece[0] = new Square(locationX,locationY);
+    	tempPiece[1] = new Square(locationX,locationY-1);
+    	tempPiece[2] = new Square(locationX,locationY-2);
+    	tempPiece[3] = new Square(locationX,locationY+1);
+    	tempPiece[4] = new Square(locationX,locationY+2);
+    	return tempPiece;
+    	
     }
     
-    void pieceSixteen (int locationX,int locationY) {
-    	pieces[locationX][locationY];
-    	pieces[locationX][locationY-1];
-    	pieces[locationX][locationY+1];
-    	pieces[locationX+1][locationY];
-    	pieces[locationX+1][locationY+1];
+    Square[] pieceSixteen (int locationX,int locationY) {
+    	Square[] tempPiece = new Square[5];
+    	tempPiece[0] = new Square(locationX,locationY);
+    	tempPiece[1] = new Square(locationX,locationY-1);
+    	tempPiece[2] = new Square(locationX,locationY+1);
+    	tempPiece[3] = new Square(locationX+1,locationY);
+    	tempPiece[4] = new Square(locationX+1,locationY+1);
+    	return tempPiece;
+    	
     }
     
-    void peiceSeventeen (int locationX,int locationY) {
-    	pieces[locationX][locationY];
-    	pieces[locationX-1][locationY];
-    	pieces[locationX-1][locationY+1];
-    	pieces[locationX][locationY-1];
-    	pieces[locationX+1][locationY-1];
+    Square[] peiceSeventeen (int locationX,int locationY) {
+    	Square[] tempPiece = new Square[5];
+    	tempPiece[0] = new Square(locationX,locationY);
+    	tempPiece[1] = new Square(locationX-1,locationY);
+    	tempPiece[2] = new Square(locationX-1,locationY+1);
+    	tempPiece[3] = new Square(locationX,locationY-1);
+    	tempPiece[4] = new Square(locationX+1,locationY-1);
+    	return tempPiece;
+    	
     }
     
-    void pieceEighteen (int locationX,int locationY) {
-    	pieces[locationX][locationY];
-    	pieces[locationX][locationY-1];
-    	pieces[locationX+1][locationY-1];
-    	pieces[locationX][locationY+1];
-    	pieces[locationX+1][locationY+1];
+    Square[] pieceEighteen (int locationX,int locationY) {
+    	Square[] tempPiece = new Square[5];
+    	tempPiece[0] = new Square(locationX,locationY);
+    	tempPiece[1] = new Square(locationX,locationY-1);
+    	tempPiece[2] = new Square(locationX+1,locationY-1);
+    	tempPiece[3] = new Square(locationX,locationY+1);
+    	tempPiece[4] = new Square(locationX+1,locationY+1);
+    	return tempPiece;
+    	
     }
     
-    void pieceNineteen (int locationX,int locationY) {
-    	pieces[locationX][locationY];
-    	pieces[locationX-1][locationY];
-    	pieces[locationX][locationY+1];
-    	pieces[locationX][locationY-1];
-    	pieces[locationX+1][locationY-1];
+    Square[] pieceNineteen (int locationX,int locationY) {
+    	Square[] tempPiece = new Square[5];
+    	tempPiece[0] = new Square(locationX,locationY);
+    	tempPiece[1] = new Square(locationX-1,locationY);
+    	tempPiece[2] = new Square(locationX,locationY+1);
+    	tempPiece[3] = new Square(locationX,locationY-1);
+    	tempPiece[4] = new Square(locationX+1,locationY-1);
+    	return tempPiece;
+    	
     }
     
-    void pieceTwenty (int locationX,int locationY) {
-    	pieces[locationX][locationY];
-    	pieces[locationX-1][locationY];
-    	pieces[locationX+1][locationY];
-    	pieces[locationX][locationY-1];
-    	pieces[locationX][locationY+1];
+    Square[] pieceTwenty (int locationX,int locationY) {
+    	Square[] tempPiece = new Square[5];
+    	tempPiece[0] = new Square(locationX,locationY);
+    	tempPiece[1] = new Square(locationX-1,locationY);
+    	tempPiece[2] = new Square(locationX+1,locationY);
+    	tempPiece[3] = new Square(locationX,locationY-1);
+    	tempPiece[4] = new Square(locationX,locationY+1);
+    	return tempPiece;
+    	
     }
     
-    void pieceTwentyOne (int locationX,int locationY) {
-    	pieces[locationX][locationY];
-    	pieces[locationX][locationY-1];
-    	pieces[locationX-1][locationY];
-    	pieces[locationX+1][locationY];
-    	pieces[locationX+2][locationY];
+    Square[] pieceTwentyOne (int locationX,int locationY) {
+    	Square[] tempPiece = new Square[5];
+    	tempPiece[0] = new Square(locationX,locationY);
+    	tempPiece[1] = new Square(locationX,locationY-1);
+    	tempPiece[2] = new Square(locationX-1,locationY);
+    	tempPiece[3] = new Square(locationX+1,locationY);
+    	tempPiece[4] = new Square(locationX+2,locationY);
+    	return tempPiece;
+    	
     }
 }
