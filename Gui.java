@@ -47,15 +47,20 @@ public class Gui extends JFrame {
 	private JButton btnExit;
 	private JButton btnMainMenu_2;
 	
-	 private final JPanel GameBoard = new JPanel(new BorderLayout(3, 3));
+	private final JPanel GameBoard = new JPanel(new BorderLayout(3, 3));
 	private JButton[][] blockusBoardSquares = new JButton[20][20];
     private JPanel blockusBoard;
     private JButton btnMainMenu2;
+	private JButton[] selectionButtons = new JButton[21];
+    
     
     int xPick = 0;
     int yPick = 0;
     boolean pickReady = false;
+    int piecePick = -1;
+    
     private JPanel PiecePanel;
+    private JPanel SelectionPanel;
     
 	/**
 	 * Create the frame.
@@ -149,6 +154,18 @@ public class Gui extends JFrame {
 	            }
 	        }
 		
+	      for (int i = 0; i <20; i++) {
+          	
+          	int pick = i;
+               selectionButtons[i].addMouseListener(new MouseAdapter() {
+       			@Override
+      			public void mouseClicked(MouseEvent arg0) {
+       				
+       				piecePick = pick + 1;
+
+      			}
+      		});
+          }
 		
 		
 		
@@ -247,6 +264,9 @@ public class Gui extends JFrame {
                  blockusBoard.add(blockusBoardSquares[jj][ii]);
             }
         }
+        
+        
+        
 		
 		btnMainMenu2 = new JButton("MainMenu");
 		
@@ -260,6 +280,21 @@ public class Gui extends JFrame {
 			
 		}
 		
+		SelectionPanel = new JPanel(new GridLayout(0, 10));;
+		
+		
+		 for (int i = 0; i < selectionButtons.length; i++) {
+             JButton b = new JButton();
+             b.setMargin(buttonMargin);
+             String num = Integer.toString(i+1);
+             b.setText(num);
+             b.setBackground(Color.WHITE);
+             selectionButtons[i] = b;
+         }
+		
+		 for (int i = 0; i <20; i++) {
+             SelectionPanel.add(selectionButtons[i]);
+        }
 		
 		
 		GroupLayout gl_Board = new GroupLayout(Board);
@@ -268,11 +303,13 @@ public class Gui extends JFrame {
 				.addGroup(gl_Board.createSequentialGroup()
 					.addContainerGap()
 					.addGroup(gl_Board.createParallelGroup(Alignment.LEADING)
+						.addComponent(btnMainMenu2, Alignment.TRAILING)
 						.addGroup(gl_Board.createSequentialGroup()
 							.addComponent(GameBoard, GroupLayout.PREFERRED_SIZE, 600, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(PiecePanel, GroupLayout.DEFAULT_SIZE, 660, Short.MAX_VALUE))
-						.addComponent(btnMainMenu2, Alignment.TRAILING))
+							.addGroup(gl_Board.createParallelGroup(Alignment.LEADING)
+								.addComponent(SelectionPanel, GroupLayout.DEFAULT_SIZE, 660, Short.MAX_VALUE)
+								.addComponent(PiecePanel, GroupLayout.DEFAULT_SIZE, 660, Short.MAX_VALUE))))
 					.addContainerGap())
 		);
 		gl_Board.setVerticalGroup(
@@ -282,7 +319,9 @@ public class Gui extends JFrame {
 					.addGroup(gl_Board.createParallelGroup(Alignment.LEADING)
 						.addComponent(GameBoard, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(PiecePanel, GroupLayout.PREFERRED_SIZE, 397, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.RELATED, 345, Short.MAX_VALUE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(SelectionPanel, GroupLayout.PREFERRED_SIZE, 130, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED, 203, Short.MAX_VALUE)
 					.addComponent(btnMainMenu2)
 					.addContainerGap())
 		);
@@ -381,6 +420,10 @@ public class Gui extends JFrame {
 		blockusBoardSquares[j][i].setBackground(color);
 		
 	}
+	public int getPiecePick() {
+		return piecePick;
+	}
+	
 	
 	public int getXPick() {
 		return xPick;
