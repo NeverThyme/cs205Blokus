@@ -5,7 +5,8 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
 public class Player {
-
+	
+	 int player1Click = -1;
     int points = 0;
     Color pieceColor;
     Square[][] pieces = new Square [1][1];
@@ -34,7 +35,7 @@ public class Player {
         //until GUI this will be a random piece
         Square[] player1Pick = pieces[0];
         
-        while(!frame.getPickReady())
+        while(!frame.getPickReady() && frame.piecePick == -1)
         {
         	try {
 				TimeUnit.SECONDS.sleep(1);
@@ -44,7 +45,7 @@ public class Player {
 			}
         }
         
-        
+        player1Click = frame.getPiecePick();
 
         //player chooses location for piece
         int player1XPick = frame.getXPick();
@@ -55,7 +56,8 @@ public class Player {
 
 //      player1Pick[0].setXY(player1XPick, player1YPick);
   
-        switch(player1Click) {
+       
+		switch(player1Click) {
      	case 1: player1Pick = pieceOne(player1XPick, player1YPick);
      		break;
     
@@ -137,7 +139,7 @@ public class Player {
 
         while (!canPlacePiece){
 
-        	 while(!frame.getPickReady())
+        	 while(!frame.getPickReady() && frame.piecePick == -1)
              {
              	try {
      				TimeUnit.SECONDS.sleep(1);
@@ -147,6 +149,7 @@ public class Player {
      			}
              }
              
+        	 player1Click = frame.getPiecePick();
              
 
              //player chooses location for piece
@@ -512,7 +515,7 @@ public class Player {
     	
     }
     
-    Square[] peiceSeventeen (int locationX,int locationY) {
+    Square[] pieceSeventeen (int locationX,int locationY) {
     	Square[] tempPiece = new Square[5];
     	tempPiece[0] = new Square(locationX,locationY);
     	tempPiece[1] = new Square(locationX-1,locationY);
