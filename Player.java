@@ -52,7 +52,8 @@ public class Player {
         
         frame.pickReady = false;
         
-        player1Pick[0].setXY(player1XPick, player1YPick);
+      //  player1Pick[0].setXY(player1XPick, player1YPick);
+        player1Pick = pieceNine(player1XPick, player1YPick);
      
 
         //validate location
@@ -88,7 +89,9 @@ public class Player {
              
              frame.pickReady = false;
              
-             player1Pick[0].setXY(player1XPick, player1YPick);
+            // player1Pick[0].setXY(player1XPick, player1YPick);
+             
+             player1Pick = pieceNine(player1XPick, player1YPick);
 
             //validate location
             canPlacePiece = checkPlacement(player1XPick, player1YPick, player1Pick, board);
@@ -172,7 +175,7 @@ public class Player {
             
         if (!board.getTaken(x, y)){
             for (int i = 0; i < piece.length; i++) {
-                if(!Board.getTaken(x + piece[i].xLoc, y + piece[i].yLoc)){
+                if(!Board.getTaken( piece[i].xLoc,  piece[i].yLoc)){
 
                 }else{
                     return false;
@@ -191,7 +194,7 @@ public class Player {
     Board placePiece(int x, int y, Square[] piece, Color color, Board board) {
         for (Square s : piece){
         	 
-        	board.setSquare(s.xLoc, s.yLoc, s.color);
+        	board.setSquare(s.xLoc, s.yLoc, color);
         	
             points += 1;
 
