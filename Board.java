@@ -44,5 +44,9 @@ Square getSquare(int x, int y) {
 	 
 }
 
+static Color getColor(int x, int y) {
+	return gameBoard[x][y].color;
+}
+
 
 }

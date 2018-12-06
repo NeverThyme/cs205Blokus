@@ -7,8 +7,11 @@ import java.util.concurrent.TimeUnit;
 public class Player {
 
     int points = 0;
+    int player1Click;
     Color pieceColor;
     Square[][] pieces = new Square [1][1];
+    boolean firstTurnP = true;
+    boolean firstTurnC = true;
 
 //======================================================================================================================
 
@@ -25,7 +28,7 @@ public class Player {
     }
 //======================================================================================================================
 
-    public Board playerTurn(Board board , Gui frame) {
+    public Board playerTurn(Board board , Gui frame, Color color) {
 
         //prompt player to pick a piece
         System.out.println("Pick a piece to play.");
@@ -123,7 +126,7 @@ public class Player {
      }
 
         //validate location
-        boolean canPlacePiece = checkPlacement(player1XPick, player1YPick, player1Pick, board);
+        boolean canPlacePiece = checkPlacement(player1XPick, player1YPick, player1Pick, board, color);
 
         
         if (canPlacePiece){
@@ -225,7 +228,7 @@ public class Player {
       		
           }
             //validate location
-            canPlacePiece = checkPlacement(player1XPick, player1YPick, player1Pick, board);
+            canPlacePiece = checkPlacement(player1XPick, player1YPick, player1Pick, board, color);
         }
         //update pieces array
         //currently does nothing because we only have one piece which is a single square
@@ -238,13 +241,13 @@ public class Player {
 
     }
 
-    public Board computerTurn(Board board) {
+    public Board computerTurn(Board board, Color color) {
     	Square[] computerPiece = pieces[0];
     	int x,y;
     	x = computerPick();
     	y = computerPick();
     	
-        boolean canPlacePiece = checkPlacement(x, y, computerPiece, board);
+        boolean canPlacePiece = checkPlacement(x, y, computerPiece, board, color);
 
     	if (canPlacePiece) {
     		board = placePiece(x, y, computerPiece, pieceColor, board);
@@ -253,7 +256,7 @@ public class Player {
     		x = computerPick();
     		y = computerPick();
     		
-    		canPlacePiece = checkPlacement(x, y, computerPiece, board);
+    		canPlacePiece = checkPlacement(x, y, computerPiece, board, color);
     	}
     	
     	removePiece(computerPiece);
@@ -300,20 +303,48 @@ public class Player {
         return player1YPick;
     }
 
-    boolean checkPlacement(int x, int y, Square[] piece, Board board){
+    boolean checkPlacement(int x, int y, Square[] piece, Board board, Color color){
+
+    	if (firstTurnP && color == color.RED) {
+            for (int i = 0; i < piece.length; i++) {
+            	if(piece[i].xLoc == 0 && piece[i].yLoc == 19) {
+            		firstTurnP = false;
+            		return true;
+            		
+            	}
+            }
+    	}
     	
-    	
-            
+    	if (firstTurnC && color == color.BLUE) {
+            for (int i = 0; i < piece.length; i++) {
+            	if(piece[i].xLoc == 19 && piece[i].yLoc == 0) {
+            		firstTurnC = false;
+            		return true;
+            		
+            	}
+            }
+    	}
         if (!board.getTaken(x, y)){
             for (int i = 0; i < piece.length; i++) {
-                if(!Board.getTaken( piece[i].xLoc,  piece[i].yLoc)){
-
-                }else{
-                    return false;
+                if(!Board.getTaken(piece[i].xLoc, piece[i].yLoc) && piece[i].xLoc >= 0 && piece[i].yLoc >= 0 && piece[i].xLoc <= 19 && piece[i].yLoc <= 19){
+                	if(Board.getTaken(piece[i].xLoc + 1, piece[i].yLoc + 1) || Board.getTaken(piece[i].xLoc + 1, piece[i].yLoc - 1) || Board.getTaken(piece[i].xLoc - 1, piece[i].yLoc + 1) || Board.getTaken(piece[i].xLoc - 1, piece[i].yLoc - 1)) {
+                    	if(Board.getColor(piece[i].xLoc + 1, piece[i].yLoc + 1) == color || Board.getColor(piece[i].xLoc + 1, piece[i].yLoc - 1) == color ||Board.getColor(piece[i].xLoc - 1, piece[i].yLoc + 1) == color ||Board.getColor(piece[i].xLoc - 1, piece[i].yLoc - 1) == color) {
+                    		
+                		}
+                    	else {
+                    		return false;
+                    	}
+                	}
+                	else {
+                		return false;
+                	}
+                }
+                else {
+                	return false;
                 }
             }
         }
-        else{
+        else {
             return false;
         }
        
@@ -512,7 +543,7 @@ public class Player {
     	
     }
     
-    Square[] peiceSeventeen (int locationX,int locationY) {
+    Square[] pieceSeventeen (int locationX,int locationY) {
     	Square[] tempPiece = new Square[5];
     	tempPiece[0] = new Square(locationX,locationY);
     	tempPiece[1] = new Square(locationX-1,locationY);
