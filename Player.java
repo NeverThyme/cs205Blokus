@@ -52,8 +52,75 @@ public class Player {
         
         frame.pickReady = false;
         
-        player1Pick[0].setXY(player1XPick, player1YPick);
-     
+//      player1Pick[0].setXY(player1XPick, player1YPick);
+  
+        switch(player1Click) {
+     	case 1: player1Pick = pieceOne(player1XPick, player1YPick);
+     		break;
+    
+     	case 2: player1Pick = pieceTwo(player1XPick, player1YPick);
+     		break;
+     		
+     	case 3: player1Pick = pieceThree(player1XPick, player1YPick);
+     		break;
+     		
+     	case 4: player1Pick = pieceFour(player1XPick, player1YPick);
+     		break;
+     		
+     	case 5: player1Pick = pieceFive(player1XPick, player1YPick);
+     		break;
+     	
+     	case 6: player1Pick = pieceSix(player1XPick, player1YPick);
+ 			break;
+ 		
+     	case 7: player1Pick = pieceSeven(player1XPick, player1YPick);
+ 			break;
+ 		
+     	case 8: player1Pick = pieceEight(player1XPick, player1YPick);
+ 			break;
+ 		
+     	case 9: player1Pick = pieceNine(player1XPick, player1YPick);
+ 			break;
+ 		
+     	case 10: player1Pick = pieceTen(player1XPick, player1YPick);
+ 			break;
+ 		
+     	case 11: player1Pick = pieceEleven(player1XPick, player1YPick);
+ 			break;
+ 		
+     	case 12: player1Pick = pieceTwelve(player1XPick, player1YPick);
+ 			break;
+ 		
+     	case 13: player1Pick = pieceThirteen(player1XPick, player1YPick);
+ 			break;
+ 		
+     	case 14: player1Pick = pieceFourteen(player1XPick, player1YPick);
+ 			break;
+ 			
+     	case 15: player1Pick = pieceFifteen(player1XPick, player1YPick);
+ 			break;
+ 		
+     	case 16: player1Pick = pieceSixteen(player1XPick, player1YPick);
+ 			break;
+ 		
+     	case 17: player1Pick = pieceSeventeen(player1XPick, player1YPick);
+ 			break;
+ 		
+     	case 18: player1Pick = pieceEighteen(player1XPick, player1YPick);
+ 			break;
+ 		
+     	case 19: player1Pick = pieceNineteen(player1XPick, player1YPick);
+ 			break;
+ 		
+     	case 20: player1Pick = pieceTwenty(player1XPick, player1YPick);
+ 			break;
+ 		
+     	case 21: player1Pick = pieceTwentyOne(player1XPick, player1YPick);
+ 			break;
+ 		
+ 		
+     }
+        
 
         //validate location
         boolean canPlacePiece = checkPlacement(player1XPick, player1YPick, player1Pick, board);
@@ -88,7 +155,74 @@ public class Player {
              
              frame.pickReady = false;
              
-             player1Pick[0].setXY(player1XPick, player1YPick);
+             //player1Pick[0].setXY(player1XPick, player1YPick);
+             
+             switch(player1Click) {
+          	case 1: player1Pick = pieceOne(player1XPick, player1YPick);
+          		break;
+         
+          	case 2: player1Pick = pieceTwo(player1XPick, player1YPick);
+          		break;
+          		
+          	case 3: player1Pick = pieceThree(player1XPick, player1YPick);
+          		break;
+          		
+          	case 4: player1Pick = pieceFour(player1XPick, player1YPick);
+          		break;
+          		
+          	case 5: player1Pick = pieceFive(player1XPick, player1YPick);
+          		break;
+          	
+          	case 6: player1Pick = pieceSix(player1XPick, player1YPick);
+      			break;
+      		
+          	case 7: player1Pick = pieceSeven(player1XPick, player1YPick);
+      			break;
+      		
+          	case 8: player1Pick = pieceEight(player1XPick, player1YPick);
+      			break;
+      		
+          	case 9: player1Pick = pieceNine(player1XPick, player1YPick);
+      			break;
+      		
+          	case 10: player1Pick = pieceTen(player1XPick, player1YPick);
+      			break;
+      		
+          	case 11: player1Pick = pieceEleven(player1XPick, player1YPick);
+      			break;
+      		
+          	case 12: player1Pick = pieceTwelve(player1XPick, player1YPick);
+      			break;
+      		
+          	case 13: player1Pick = pieceThirteen(player1XPick, player1YPick);
+      			break;
+      		
+          	case 14: player1Pick = pieceFourteen(player1XPick, player1YPick);
+      			break;
+      			
+          	case 15: player1Pick = pieceFifteen(player1XPick, player1YPick);
+      			break;
+      		
+          	case 16: player1Pick = pieceSixteen(player1XPick, player1YPick);
+      			break;
+      		
+          	case 17: player1Pick = pieceSeventeen(player1XPick, player1YPick);
+      			break;
+      		
+          	case 18: player1Pick = pieceEighteen(player1XPick, player1YPick);
+      			break;
+      		
+          	case 19: player1Pick = pieceNineteen(player1XPick, player1YPick);
+      			break;
+      		
+          	case 20: player1Pick = pieceTwenty(player1XPick, player1YPick);
+      			break;
+      		
+          	case 21: player1Pick = pieceTwentyOne(player1XPick, player1YPick);
+      			break;
+      		
+      		
+          }
 
             //validate location
             canPlacePiece = checkPlacement(player1XPick, player1YPick, player1Pick, board);
