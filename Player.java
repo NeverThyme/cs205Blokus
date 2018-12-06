@@ -445,4 +445,25 @@ public class Player {
     	}
     	return piece;
     }
+   
+   Square[] mirrorPiece(Square[] piece) {
+	   for (int i=1;i<piece.length;i++){
+		   int relativeCoordinateX = piece[i].xLoc - piece[0].xLoc;
+		   int temp=relativeCoordinateX;
+		   relativeCoordinateX=-relativeCoordinateX;
+		   relativeCoordinateX=temp;
+		   piece[i].xLoc = piece[0].xLoc + relativeCoordinateX;
+	   }
+   	return piece;
+   }
 }
+
+
+
+
+
+
+
+
+
+
