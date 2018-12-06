@@ -432,4 +432,17 @@ public class Player {
     	return tempPiece;
     	
     }
+   Square[] rotateRight(Square[] piece) {
+    	
+    	for (int i=1;i<piece.length;i++){
+    		int relativeCoordinateX = piece[i].xLoc - piece[0].xLoc;
+    		int relativeCoordinateY = piece[i].yLoc - piece[0].yLoc;
+    		int temp=relativeCoordinateX;
+    		relativeCoordinateX=-relativeCoordinateY;
+    		relativeCoordinateY=temp;
+    		piece[i].xLoc = piece[0].xLoc + relativeCoordinateX;
+    		piece[i].yLoc = piece[0].yLoc + relativeCoordinateY;
+    	}
+    	return piece;
+    }
 }
