@@ -7,6 +7,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
+import javax.imageio.ImageIO;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.ImageIcon;
@@ -18,6 +19,8 @@ import javax.swing.SwingConstants;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.awt.CardLayout;
@@ -52,6 +55,7 @@ public class Gui extends JFrame {
     int xPick = 0;
     int yPick = 0;
     boolean pickReady = false;
+    private JPanel PiecePanel;
     
 	/**
 	 * Create the frame.
@@ -129,8 +133,8 @@ public class Gui extends JFrame {
 		
 		 for (int ii = 0; ii < 20; ii++) {
 	            for (int jj = 0; jj <20; jj++) {
-	            	int i = ii;
-	            	int j = jj;
+	            	int j = ii;
+	            	int i = jj;
 	                 blockusBoardSquares[ii][jj].addMouseListener(new MouseAdapter() {
 	         			@Override
 	        			public void mouseClicked(MouseEvent arg0) {
@@ -246,28 +250,45 @@ public class Gui extends JFrame {
 		
 		btnMainMenu2 = new JButton("MainMenu");
 		
+		PiecePanel = new JPanel();
+		try {
+		BufferedImage myPicture = ImageIO.read(new File("Screen Shot 2018-11-14 at 1.33.19 PM.png"));
+		JLabel picLabel = new JLabel(new ImageIcon(myPicture));
+		PiecePanel.add(picLabel);
+		}
+		catch(IOException ex){
+			
+		}
+		
+		
 		
 		GroupLayout gl_Board = new GroupLayout(Board);
 		gl_Board.setHorizontalGroup(
-			gl_Board.createParallelGroup(Alignment.TRAILING)
+			gl_Board.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_Board.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(GameBoard, GroupLayout.PREFERRED_SIZE, 600, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(693, Short.MAX_VALUE))
-				.addGroup(gl_Board.createSequentialGroup()
-					.addContainerGap(1152, Short.MAX_VALUE)
-					.addComponent(btnMainMenu2)
+					.addGroup(gl_Board.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_Board.createSequentialGroup()
+							.addComponent(GameBoard, GroupLayout.PREFERRED_SIZE, 600, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(PiecePanel, GroupLayout.DEFAULT_SIZE, 660, Short.MAX_VALUE))
+						.addComponent(btnMainMenu2, Alignment.TRAILING))
 					.addContainerGap())
 		);
 		gl_Board.setVerticalGroup(
 			gl_Board.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_Board.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(GameBoard, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED, 720, Short.MAX_VALUE)
+					.addGroup(gl_Board.createParallelGroup(Alignment.LEADING)
+						.addComponent(GameBoard, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(PiecePanel, GroupLayout.PREFERRED_SIZE, 397, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.RELATED, 345, Short.MAX_VALUE)
 					.addComponent(btnMainMenu2)
 					.addContainerGap())
 		);
+		
+		
+		
 		
 
 		GroupLayout gl_GameBoard = new GroupLayout(GameBoard);
@@ -307,22 +328,22 @@ public class Gui extends JFrame {
 				"				\"tallied, and the player with the highest score is the winner.");
 		GroupLayout gl_Instructions = new GroupLayout(Instructions);
 		gl_Instructions.setHorizontalGroup(
-			gl_Instructions.createParallelGroup(Alignment.LEADING)
-				.addGroup(Alignment.TRAILING, gl_Instructions.createSequentialGroup()
-					.addContainerGap(252, Short.MAX_VALUE)
+			gl_Instructions.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_Instructions.createSequentialGroup()
+					.addContainerGap(1158, Short.MAX_VALUE)
 					.addComponent(btnMainMenu)
 					.addContainerGap())
 				.addGroup(gl_Instructions.createSequentialGroup()
 					.addContainerGap()
 					.addComponent(lblInsertInstructionsFor)
-					.addContainerGap(301, Short.MAX_VALUE))
+					.addContainerGap(921, Short.MAX_VALUE))
 		);
 		gl_Instructions.setVerticalGroup(
-			gl_Instructions.createParallelGroup(Alignment.LEADING)
-				.addGroup(Alignment.TRAILING, gl_Instructions.createSequentialGroup()
+			gl_Instructions.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_Instructions.createSequentialGroup()
 					.addContainerGap()
 					.addComponent(lblInsertInstructionsFor)
-					.addPreferredGap(ComponentPlacement.RELATED, 116, Short.MAX_VALUE)
+					.addPreferredGap(ComponentPlacement.RELATED, 716, Short.MAX_VALUE)
 					.addComponent(btnMainMenu)
 					.addContainerGap())
 		);
@@ -357,7 +378,7 @@ public class Gui extends JFrame {
 	
 	public void setColor(int i , int j , Color color) {
 		
-		blockusBoardSquares[i][j].setBackground(color);
+		blockusBoardSquares[j][i].setBackground(color);
 		
 	}
 	
@@ -372,7 +393,4 @@ public class Gui extends JFrame {
 	public boolean getPickReady() {
 		return pickReady;
 	}
-	
-	
-	
 }

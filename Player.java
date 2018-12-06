@@ -52,6 +52,7 @@ public class Player {
         
         frame.pickReady = false;
         
+
 //      player1Pick[0].setXY(player1XPick, player1YPick);
   
         switch(player1Click) {
@@ -120,7 +121,6 @@ public class Player {
  		
  		
      }
-        
 
         //validate location
         boolean canPlacePiece = checkPlacement(player1XPick, player1YPick, player1Pick, board);
@@ -155,6 +155,7 @@ public class Player {
              
              frame.pickReady = false;
              
+
              //player1Pick[0].setXY(player1XPick, player1YPick);
              
              switch(player1Click) {
@@ -223,7 +224,6 @@ public class Player {
       		
       		
           }
-
             //validate location
             canPlacePiece = checkPlacement(player1XPick, player1YPick, player1Pick, board);
         }
@@ -306,7 +306,7 @@ public class Player {
             
         if (!board.getTaken(x, y)){
             for (int i = 0; i < piece.length; i++) {
-                if(!Board.getTaken(x + piece[i].xLoc, y + piece[i].yLoc)){
+                if(!Board.getTaken( piece[i].xLoc,  piece[i].yLoc)){
 
                 }else{
                     return false;
@@ -325,7 +325,7 @@ public class Player {
     Board placePiece(int x, int y, Square[] piece, Color color, Board board) {
         for (Square s : piece){
         	 
-        	board.setSquare(s.xLoc, s.yLoc, s.color);
+        	board.setSquare(s.xLoc, s.yLoc, color);
         	
             points += 1;
 
@@ -566,4 +566,38 @@ public class Player {
     	return tempPiece;
     	
     }
+   Square[] rotateRight(Square[] piece) {
+    	
+    	for (int i=1;i<piece.length;i++){
+    		int relativeCoordinateX = piece[i].xLoc - piece[0].xLoc;
+    		int relativeCoordinateY = piece[i].yLoc - piece[0].yLoc;
+    		int temp=relativeCoordinateX;
+    		relativeCoordinateX=-relativeCoordinateY;
+    		relativeCoordinateY=temp;
+    		piece[i].xLoc = piece[0].xLoc + relativeCoordinateX;
+    		piece[i].yLoc = piece[0].yLoc + relativeCoordinateY;
+    	}
+    	return piece;
+    }
+   
+   Square[] mirrorPiece(Square[] piece) {
+	   for (int i=1;i<piece.length;i++){
+		   int relativeCoordinateX = piece[i].xLoc - piece[0].xLoc;
+		   int temp=relativeCoordinateX;
+		   relativeCoordinateX=-relativeCoordinateX;
+		   relativeCoordinateX=temp;
+		   piece[i].xLoc = piece[0].xLoc + relativeCoordinateX;
+	   }
+   	return piece;
+   }
 }
+
+
+
+
+
+
+
+
+
+
