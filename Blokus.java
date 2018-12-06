@@ -10,16 +10,21 @@ public class Blokus {
 		Color tempColorBlue = new Color(0,0,1);
 		Player player = new Player(tempColorRed);
 		Player computer = new Player(tempColorBlue);
+		Gui frame = new Gui();
 		
 		Board board = new Board();
 		board.makeBoard();
 		
+		
+		
+	
 		///Runs Gui
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Gui frame = new Gui();
+					//Gui frame = new Gui();
 					frame.setVisible(true);
+					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -36,8 +41,10 @@ public class Blokus {
 			int x = 0;
 			int y = 0;
 			
-			board = player.playerTurn(board);
-			board = computer.computerTurn(board);
+			board = player.playerTurn(board , frame);
+			//board = computer.computerTurn(board);
+			
+			updateGUI(board,frame);
 			
 		
 			//just quickly printing the board so we can test things until i finish hooking up gui
@@ -60,4 +67,20 @@ public class Blokus {
 			   }
 		}	
 	}
-}
+		
+	public static void updateGUI( Board board, Gui frame ) {
+			
+			for(int i = 0; i < 20 ; ++i) {
+			    for(int j = 0; j < 20; ++j) {
+			    	frame.setColor(board.gameBoard[i][j].xLoc, board.gameBoard[i][j].yLoc, board.gameBoard[i][j].color);
+			    }
+			  }
+			}
+		
+			
+		
+		
+	}
+	
+	
+	
