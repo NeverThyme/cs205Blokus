@@ -11,6 +11,7 @@ public class Blokus {
 		Player player = new Player(tempColorRed);
 		Player computer = new Player(tempColorBlue);
 		Gui frame = new Gui();
+
 		
 		Board board = new Board();
 		board.makeBoard();
@@ -41,8 +42,8 @@ public class Blokus {
 			int x = 0;
 			int y = 0;
 			
-			board = player.playerTurn(board , frame);
-			//board = computer.computerTurn(board);
+			board = player.playerTurn(board , frame, player.getColor());
+			board = computer.computerTurn(board, computer.getColor());
 			
 			updateGUI(board,frame);
 			
