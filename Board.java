@@ -16,7 +16,7 @@ void makeBoard(){
 
   for(int i = 0; i < 20 ; ++i) {
     for(int j = 0; j < 20; ++j) {
-      gameBoard[i][j] = new Square();
+      gameBoard[i][j] = new Square(Color.WHITE);
     }
   }
 }
