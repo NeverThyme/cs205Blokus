@@ -15,6 +15,7 @@ import javax.swing.JLabel;
 import javax.swing.JButton;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -31,6 +32,9 @@ import java.awt.event.ActionEvent;
 
 
 import java.awt.Color;
+import java.awt.event.MouseMotionAdapter;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 
 public class Gui extends JFrame {
 
@@ -48,16 +52,20 @@ public class Gui extends JFrame {
 	private JButton btnMainMenu_2;
 	
 	private final JPanel GameBoard = new JPanel(new BorderLayout(3, 3));
-	private JButton[][] blockusBoardSquares = new JButton[20][20];
+	private static JButton[][] blockusBoardSquares = new JButton[20][20];
     private JPanel blockusBoard;
     private JButton btnMainMenu2;
 	private JButton[] selectionButtons = new JButton[21];
     
     
-    int xPick = 0;
-    int yPick = 0;
+    static int xPick = -1;
+    static int yPick = -1;
     boolean pickReady = false;
-    int piecePick = -1;
+    static int piecePick = 1;
+    
+    private static boolean pTransfer = true;
+    private static boolean xTransfer = true;
+    private static boolean yTransfer = true;
     
     private JPanel PiecePanel;
     private JPanel SelectionPanel;
@@ -144,8 +152,8 @@ public class Gui extends JFrame {
 	         			@Override
 	        			public void mouseClicked(MouseEvent arg0) {
 	        				
-	         				xPick = i;
-	         				yPick = j;
+	         				sendX (i);
+	         				sendY (j);
 	         				pickReady = true;
 	         				
 
@@ -161,13 +169,61 @@ public class Gui extends JFrame {
        			@Override
       			public void mouseClicked(MouseEvent arg0) {
        				
-       				piecePick = pick + 1;
+       				//piecePick = pick + 1;
+       				sendPick(pick + 1);
 
       			}
       		});
           }
+	      
+	      for (int ii = 0; ii < 20; ii++) {
+	            for (int jj = 0; jj <20; jj++) {
+	            	int i = ii;
+	            	int j = jj;
+	            	
+	                 blockusBoardSquares[ii][jj].addMouseListener(new java.awt.event.MouseAdapter() {
+	    	    private Color temp = blockusBoardSquares[i][j].getBackground();
+				public void mouseEntered(java.awt.event.MouseEvent evt) {
+					
+					
+						Square[] temp = getHover();
+						
+						for(Square s : temp) {
+							try {
+								if (blockusBoardSquares[i+s.yLoc][j+s.xLoc].getBackground() == Color.white) {
+							blockusBoardSquares[i+s.yLoc][j+s.xLoc].setBackground(Color.pink);
+								}
+							}
+							catch(Exception e){
+								
+							
+							
+						}
+	    	    	
+					}
+	    	    }
+
+	    	    public void mouseExited(java.awt.event.MouseEvent evt) {
+	    	    	
+	    	    		Square[] temp2 = getHover();
+						
+						for(Square s : temp2) {
+							try {
+					if (blockusBoardSquares[i+s.yLoc][j+s.xLoc].getBackground() == Color.pink) {
+	    	    		blockusBoardSquares[i+s.yLoc][j+s.xLoc].setBackground(temp);
+					}
+							}
+							catch(Exception e){
+								
+							}
+							
+						
+	    	    	}
+	    	    }
+	    	});
 		
-		
+	            }
+	      }
 		
 
 	}
@@ -232,6 +288,7 @@ public class Gui extends JFrame {
 		Board = new JPanel();
 		contentPane.add(Board, "name_3012008420420962");
 		
+		
 		//JPanel GameBoard = new JPanel();
 		//GameBoard.setBackground(Color.GRAY);
 		
@@ -269,6 +326,7 @@ public class Gui extends JFrame {
         
 		
 		btnMainMenu2 = new JButton("MainMenu");
+	
 		
 		PiecePanel = new JPanel();
 		try {
@@ -420,20 +478,485 @@ public class Gui extends JFrame {
 		blockusBoardSquares[j][i].setBackground(color);
 		
 	}
-	public int getPiecePick() {
-		return piecePick;
+	public static int getPiecePick() {
+		
+		int temp = piecePick;
+		piecePick = -1;
+		return temp;
+	}
+public static Color getColor(int x,int y) {
+		
+		
+		return blockusBoardSquares[x][y].getBackground();
 	}
 	
 	
-	public int getXPick() {
-		return xPick;
+	public static int getXPick() {
+		int temp = xPick;
+		xPick = -1;
+		return temp;
 	}
 	
-	public int getYPick() {
-		return yPick;
+	public static int getYPick() {
+		int temp = yPick;
+		yPick = -1;
+		return temp;
 	}
 	
 	public boolean getPickReady() {
 		return pickReady;
 	}
+	
+	public Square[] getPiece(){
+		
+		int piecePick = -1;
+		System.out.println("Pick what piece to play");
+		piecePick = receivePick();
+		
+		
+	    
+	    System.out.println("Pick where to place piece");
+	 
+	   int xPick = -1;
+	   int yPick = -1;
+	   
+	   xPick = receiveX();
+	   yPick = receiveY();
+	    
+	   
+		
+	    Square [] temp = pieceOne(xPick, yPick);
+	    
+		
+		switch(piecePick) {
+	 	case 1: temp = pieceOne(xPick, yPick);
+	 			break;
+		case 2: temp = pieceTwo(xPick, yPick);
+		break;
+		case 3: temp = pieceThree(xPick, yPick);
+		break;
+		case 4: temp = pieceFour(xPick, yPick);
+		break;
+		case 5: temp = pieceFive(xPick, yPick);
+		break;
+		case 6: temp = pieceSix(xPick, yPick);
+		break;
+		case 7: temp = pieceSeven(xPick, yPick);
+		break;
+		case 8: temp = pieceEight(xPick, yPick);
+		break;
+		case 9: temp = pieceNine(xPick, yPick);
+		break;
+		case 10: temp = pieceTen(xPick, yPick);
+		break;
+		case 11: temp = pieceEleven(xPick, yPick);
+		break;
+		case 12: temp = pieceTwelve(xPick, yPick);
+		break;
+		case 13: temp = pieceThirteen(xPick, yPick);
+		break;
+		case 14: temp = pieceFourteen(xPick, yPick);
+		break;
+		case 15: temp = pieceFifteen(xPick, yPick);
+		break;
+		case 16: temp = pieceSixteen(xPick, yPick);
+		break;
+		case 17: temp = pieceSeventeen(xPick, yPick);
+		break;
+		case 18: temp = pieceEighteen(xPick, yPick);
+		break;
+		case 19: temp = pieceNineteen(xPick, yPick);
+		break;
+		case 20: temp = pieceTwenty(xPick, yPick);
+		break;
+		case 21: temp = pieceTwentyOne(xPick, yPick);
+		break;
+			
+	  	
+	  }
+			
+			xPick = -1;
+			yPick = -1;
+			piecePick = -1;
+			return temp;
+	  }
+
+	public static Square[] pieceOne (int locationX,int locationY) {
+		Square[] tempPiece = new Square[1];
+		tempPiece[0] = new Square(locationX,locationY);
+		return tempPiece;
+
+	}
+
+	public static Square[] pieceTwo (int locationX,int locationY) {
+		Square[] tempPiece = new Square[2];
+		tempPiece[0] = new Square(locationX,locationY);
+		tempPiece[1] = new Square(locationX+1,locationY);
+		return tempPiece;
+	}
+
+	public static Square[] pieceThree (int locationX,int locationY) {
+		 
+		Square[] tempPiece = new Square[3];
+		tempPiece[0] = new Square(locationX,locationY);
+		tempPiece[1] = new Square(locationX+1,locationY);
+		tempPiece[2] = new Square(locationX+1,locationY+1);
+		return tempPiece;
+		
+		
+	}
+
+	public static Square[] pieceFour (int locationX,int locationY) {
+		Square[] tempPiece = new Square[3];
+		tempPiece[0] = new Square(locationX,locationY);
+		tempPiece[1] = new Square(locationX+1,locationY);
+		tempPiece[2] = new Square(locationX-1,locationY);
+		return tempPiece;
+	}
+
+	public static Square[] pieceFive (int locationX,int locationY) {
+		Square[] tempPiece = new Square[4];
+		tempPiece[0] = new Square(locationX,locationY);
+		tempPiece[1] = new Square(locationX+1,locationY);
+		tempPiece[2] = new Square(locationX+1,locationY+1);
+		tempPiece[3] = new Square(locationX,locationY+1);
+		return tempPiece;
+	}
+
+	public static Square[] pieceSix (int locationX,int locationY) {
+		Square[] tempPiece = new Square[4];
+		tempPiece[0] = new Square(locationX,locationY);
+		tempPiece[1] = new Square(locationX+1,locationY+1);
+		tempPiece[2] = new Square(locationX-1,locationY+1);
+		tempPiece[3] = new Square(locationX,locationY+1);
+		return tempPiece;
+	}
+
+	public static Square[] pieceSeven (int locationX,int locationY) {
+		Square[] tempPiece = new Square[4];
+		tempPiece[0] = new Square(locationX,locationY);
+		tempPiece[1] = new Square(locationX-1,locationY);
+		tempPiece[2] = new Square(locationX+1,locationY+1);
+		tempPiece[3] = new Square(locationX+2,locationY+1);
+		return tempPiece;
+	}
+
+	public static Square[] pieceEight (int locationX,int locationY) {
+		Square[] tempPiece = new Square[4];
+		tempPiece[0] = new Square(locationX,locationY);
+		tempPiece[1] = new Square(locationX-1,locationY);
+		tempPiece[2] = new Square(locationX+1,locationY);
+		tempPiece[3] = new Square(locationX+1,locationY-1);
+		return tempPiece;
+		
+	}
+
+	public static Square[] pieceNine (int locationX,int locationY) {
+		Square[] tempPiece = new Square[4];
+		tempPiece[0] = new Square(locationX,locationY);
+		tempPiece[1] = new Square(locationX-1,locationY);
+		tempPiece[2] = new Square(locationX,locationY-1);
+		tempPiece[3] = new Square(locationX+1,locationY-1);
+		return tempPiece;
+		
+	}
+
+	public static Square[] pieceTen (int locationX,int locationY) {
+		Square[] tempPiece = new Square[5];
+		tempPiece[0] = new Square(locationX,locationY);
+		tempPiece[1] = new Square(locationX-1,locationY);
+		tempPiece[2] = new Square(locationX-1,locationY-1);
+		tempPiece[3] = new Square(locationX+1,locationY);
+		tempPiece[4] = new Square(locationX+2,locationY);
+		return tempPiece;
+		
+	}
+
+	public static Square[] pieceEleven (int locationX,int locationY) {
+		Square[] tempPiece = new Square[5];
+		tempPiece[0] = new Square(locationX,locationY);
+		tempPiece[1] = new Square(locationX,locationY-1);
+		tempPiece[2] = new Square(locationX,locationY-2);
+		tempPiece[3] = new Square(locationX-1,locationY);
+		tempPiece[4] = new Square(locationX+1,locationY);
+		return tempPiece;
+	}
+
+	public static Square[] pieceTwelve (int locationX,int locationY) {
+		Square[] tempPiece = new Square[5];
+		tempPiece[0] = new Square(locationX,locationY);
+		tempPiece[1] = new Square(locationX,locationY-1);
+		tempPiece[2] = new Square(locationX,locationY-2);
+		tempPiece[3] = new Square(locationX+1,locationY);
+		tempPiece[4] = new Square(locationX+2,locationY);
+		return tempPiece;
+		
+	}
+
+	public static Square[] pieceThirteen (int locationX,int locationY) {
+		Square[] tempPiece = new Square[5];
+		tempPiece[0] = new Square(locationX,locationY);
+		tempPiece[1] = new Square(locationX-1,locationY);
+		tempPiece[2] = new Square(locationX,locationY-1);
+		tempPiece[3] = new Square(locationX+1,locationY-1);
+		tempPiece[4] = new Square(locationX+2,locationY-1);
+		return tempPiece;
+		
+	}
+
+	public static Square[] pieceFourteen (int locationX,int locationY) {
+		Square[] tempPiece = new Square[5];
+		tempPiece[0] = new Square(locationX,locationY);
+		tempPiece[1] = new Square(locationX-1,locationY);
+		tempPiece[2] = new Square(locationX+1,locationY);
+		tempPiece[3] = new Square(locationX-1,locationY+1);
+		tempPiece[4] = new Square(locationX+1,locationY-1);
+		return tempPiece;
+		
+	}
+
+	public static Square[] pieceFifteen (int locationX,int locationY) {
+		Square[] tempPiece = new Square[5];
+		tempPiece[0] = new Square(locationX,locationY);
+		tempPiece[1] = new Square(locationX,locationY-1);
+		tempPiece[2] = new Square(locationX,locationY-2);
+		tempPiece[3] = new Square(locationX,locationY+1);
+		tempPiece[4] = new Square(locationX,locationY+2);
+		return tempPiece;
+		
+	}
+
+	public static Square[] pieceSixteen (int locationX,int locationY) {
+		Square[] tempPiece = new Square[5];
+		tempPiece[0] = new Square(locationX,locationY);
+		tempPiece[1] = new Square(locationX,locationY-1);
+		tempPiece[2] = new Square(locationX,locationY+1);
+		tempPiece[3] = new Square(locationX+1,locationY);
+		tempPiece[4] = new Square(locationX+1,locationY+1);
+		return tempPiece;
+		
+	}
+
+	public static Square[] pieceSeventeen (int locationX,int locationY) {
+		Square[] tempPiece = new Square[5];
+		tempPiece[0] = new Square(locationX,locationY);
+		tempPiece[1] = new Square(locationX-1,locationY);
+		tempPiece[2] = new Square(locationX-1,locationY+1);
+		tempPiece[3] = new Square(locationX,locationY-1);
+		tempPiece[4] = new Square(locationX+1,locationY-1);
+		return tempPiece;
+		
+	}
+
+	public static Square[] pieceEighteen (int locationX,int locationY) {
+		Square[] tempPiece = new Square[5];
+		tempPiece[0] = new Square(locationX,locationY);
+		tempPiece[1] = new Square(locationX,locationY-1);
+		tempPiece[2] = new Square(locationX+1,locationY-1);
+		tempPiece[3] = new Square(locationX,locationY+1);
+		tempPiece[4] = new Square(locationX+1,locationY+1);
+		return tempPiece;
+		
+	}
+
+	public static Square[] pieceNineteen (int locationX,int locationY) {
+		Square[] tempPiece = new Square[5];
+		tempPiece[0] = new Square(locationX,locationY);
+		tempPiece[1] = new Square(locationX-1,locationY);
+		tempPiece[2] = new Square(locationX,locationY+1);
+		tempPiece[3] = new Square(locationX,locationY-1);
+		tempPiece[4] = new Square(locationX+1,locationY-1);
+		return tempPiece;
+		
+	}
+
+	public static Square[] pieceTwenty (int locationX,int locationY) {
+		Square[] tempPiece = new Square[5];
+		tempPiece[0] = new Square(locationX,locationY);
+		tempPiece[1] = new Square(locationX-1,locationY);
+		tempPiece[2] = new Square(locationX+1,locationY);
+		tempPiece[3] = new Square(locationX,locationY-1);
+		tempPiece[4] = new Square(locationX,locationY+1);
+		return tempPiece;
+		
+	}
+
+	public static Square[] pieceTwentyOne (int locationX,int locationY) {
+		Square[] tempPiece = new Square[5];
+		tempPiece[0] = new Square(locationX,locationY);
+		tempPiece[1] = new Square(locationX,locationY-1);
+		tempPiece[2] = new Square(locationX-1,locationY);
+		tempPiece[3] = new Square(locationX+1,locationY);
+		tempPiece[4] = new Square(locationX+2,locationY);
+		return tempPiece;
+		
+	}
+	public static Square[] rotateRight(Square[] piece) {
+		
+		for (int i=1;i<piece.length;i++){
+			int relativeCoordinateX = piece[i].xLoc - piece[0].xLoc;
+			int relativeCoordinateY = piece[i].yLoc - piece[0].yLoc;
+			int temp=relativeCoordinateX;
+			relativeCoordinateX=-relativeCoordinateY;
+			relativeCoordinateY=temp;
+			piece[i].xLoc = piece[0].xLoc + relativeCoordinateX;
+			piece[i].yLoc = piece[0].yLoc + relativeCoordinateY;
+		}
+		return piece;
+	}
+
+	public static Square[] mirrorPiece(Square[] piece) {
+	   for (int i=1;i<piece.length;i++){
+		   int relativeCoordinateX = piece[i].xLoc - piece[0].xLoc;
+		   int temp=relativeCoordinateX;
+		   relativeCoordinateX=-relativeCoordinateX;
+		   relativeCoordinateX=temp;
+		   piece[i].xLoc = piece[0].xLoc + relativeCoordinateX;
+	   }
+		return piece;
+	}
+	
+	Square[] getHover() {
+		
+		int xPick = 0;
+		int yPick = 0;
+		
+		 Square [] temp = pieceOne(xPick, yPick);
+		    
+			
+			switch(piecePick) {
+		 	case 1: temp = pieceOne(xPick, yPick);
+		 			break;
+			case 2: temp = pieceTwo(xPick, yPick);
+			break;
+			case 3: temp = pieceThree(xPick, yPick);
+			break;
+			case 4: temp = pieceFour(xPick, yPick);
+			break;
+			case 5: temp = pieceFive(xPick, yPick);
+			break;
+			case 6: temp = pieceSix(xPick, yPick);
+			break;
+			case 7: temp = pieceSeven(xPick, yPick);
+			break;
+			case 8: temp = pieceEight(xPick, yPick);
+			break;
+			case 9: temp = pieceNine(xPick, yPick);
+			break;
+			case 10: temp = pieceTen(xPick, yPick);
+			break;
+			case 11: temp = pieceEleven(xPick, yPick);
+			break;
+			case 12: temp = pieceTwelve(xPick, yPick);
+			break;
+			case 13: temp = pieceThirteen(xPick, yPick);
+			break;
+			case 14: temp = pieceFourteen(xPick, yPick);
+			break;
+			case 15: temp = pieceFifteen(xPick, yPick);
+			break;
+			case 16: temp = pieceSixteen(xPick, yPick);
+			break;
+			case 17: temp = pieceSeventeen(xPick, yPick);
+			break;
+			case 18: temp = pieceEighteen(xPick, yPick);
+			break;
+			case 19: temp = pieceNineteen(xPick, yPick);
+			break;
+			case 20: temp = pieceTwenty(xPick, yPick);
+			break;
+			case 21: temp = pieceTwentyOne(xPick, yPick);
+			break;
+			
+			
+	}
+			return temp;
+	}
+	
+	 public synchronized void sendPick(int packet) {
+	        while (!pTransfer) {
+	            try { 
+	                wait();
+	            } catch (InterruptedException e)  {
+	                
+	            }
+	        }
+	        pTransfer = false;
+	         
+	        this.piecePick = packet;
+	        notifyAll();
+	    }
+	 
+	 public synchronized int receivePick() {
+	        while (pTransfer) {
+	            try {
+	                wait();
+	            } catch (InterruptedException e)  {
+	                 
+	            }
+	        }
+	        pTransfer = true;
+	 
+	        notifyAll();
+	        return piecePick;
+	    }
+	 
+	 public synchronized void sendX(int packet) {
+	        while (!xTransfer) {
+	            try { 
+	                wait();
+	            } catch (InterruptedException e)  {
+	                
+	            }
+	        }
+	        xTransfer = false;
+	         
+	        this.xPick = packet;
+	        notifyAll();
+	    }
+	 
+	 public synchronized int receiveX() {
+	        while (xTransfer) {
+	            try {
+	                wait();
+	            } catch (InterruptedException e)  {
+	                 
+	            }
+	        }
+	        xTransfer = true;
+	 
+	        notifyAll();
+	        return xPick;
+	    }
+	 public synchronized void sendY(int packet) {
+	        while (!yTransfer) {
+	            try { 
+	                wait();
+	            } catch (InterruptedException e)  {
+	                
+	            }
+	        }
+	        yTransfer = false;
+	         
+	        this.yPick = packet;
+	        notifyAll();
+	    }
+	 
+	 public synchronized int receiveY() {
+	        while (yTransfer) {
+	            try {
+	                wait();
+	            } catch (InterruptedException e)  {
+	                 
+	            }
+	        }
+	        yTransfer = true;
+	 
+	        notifyAll();
+	        return yPick;
+	    }
+	 
+	 
+	
+	
 }
