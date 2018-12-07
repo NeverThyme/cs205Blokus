@@ -12,6 +12,11 @@ public class Square {
   public Square() {
 	  
   }
+  public Square(Color c) {
+	  
+  color = c;
+  }
+	  
   public Square(int x, int y) {
 	  xLoc = x;
 	  yLoc = y;
