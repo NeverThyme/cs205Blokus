@@ -35,6 +35,9 @@ import java.awt.Color;
 import java.awt.event.MouseMotionAdapter;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 public class Gui extends JFrame {
 
@@ -56,6 +59,9 @@ public class Gui extends JFrame {
     private JPanel blockusBoard;
     private JButton btnMainMenu2;
 	private JButton[] selectionButtons = new JButton[21];
+	
+	int rotates = 0;
+	int mirrors = 0;
     
     
     static int xPick = -1;
@@ -63,20 +69,28 @@ public class Gui extends JFrame {
     boolean pickReady = false;
     static int piecePick = 1;
     
+    Square[] hover;
+    
+    int[] xy = new int[2];
+    
     private static boolean pTransfer = true;
     private static boolean xTransfer = true;
     private static boolean yTransfer = true;
     
     private JPanel PiecePanel;
     private JPanel SelectionPanel;
-    
+    private JButton btnMirror;
+    private JButton btnRotate;
+   
 	/**
 	 * Create the frame.
 	 */
 	public Gui() {
 		
+		
 		componentInit();
 		eventInit();
+		
 		
 	}
 
@@ -152,8 +166,10 @@ public class Gui extends JFrame {
 	         			@Override
 	        			public void mouseClicked(MouseEvent arg0) {
 	        				
-	         				sendX (i);
-	         				sendY (j);
+	         				xy[0] = i;
+	         				xy[1] = j;
+	         				
+	         				sendXY(xy);
 	         				pickReady = true;
 	         				
 
@@ -186,9 +202,16 @@ public class Gui extends JFrame {
 				public void mouseEntered(java.awt.event.MouseEvent evt) {
 					
 					
-						Square[] temp = getHover();
+						hover = getHover();
+						for(int i = 0; i < rotates;i++) {
+							hover = rotateRight(hover);
+						}
+						for(int i = 0; i < mirrors;i++) {
+							hover = mirrorPiece(hover);
+						}
 						
-						for(Square s : temp) {
+						
+						for(Square s : hover) {
 							try {
 								if (blockusBoardSquares[i+s.yLoc][j+s.xLoc].getBackground() == Color.white) {
 							blockusBoardSquares[i+s.yLoc][j+s.xLoc].setBackground(Color.pink);
@@ -205,9 +228,15 @@ public class Gui extends JFrame {
 
 	    	    public void mouseExited(java.awt.event.MouseEvent evt) {
 	    	    	
-	    	    		Square[] temp2 = getHover();
+	    	    		hover = getHover();
+	    	    		for(int i = 0; i < rotates;i++) {
+							hover = rotateRight(hover);
+						}
+						for(int i = 0; i < mirrors;i++) {
+							hover = mirrorPiece(hover);
+						}
 						
-						for(Square s : temp2) {
+						for(Square s : hover) {
 							try {
 					if (blockusBoardSquares[i+s.yLoc][j+s.xLoc].getBackground() == Color.pink) {
 	    	    		blockusBoardSquares[i+s.yLoc][j+s.xLoc].setBackground(temp);
@@ -223,9 +252,28 @@ public class Gui extends JFrame {
 	    	});
 		
 	            }
+	            
+	            
 	      }
-		
-
+	     
+	      btnRotate.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent arg0) {
+					
+					rotates ++;
+				}
+			});
+	      
+	      btnMirror.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent arg0) {
+					mirrors ++;
+				}
+			});
+	   
+	    
+	      
+	      
 	}
 	
 	
@@ -286,6 +334,7 @@ public class Gui extends JFrame {
 		MainMenu.setLayout(gl_MainMenu);
 		
 		Board = new JPanel();
+		
 		contentPane.add(Board, "name_3012008420420962");
 		
 		
@@ -338,7 +387,7 @@ public class Gui extends JFrame {
 			
 		}
 		
-		SelectionPanel = new JPanel(new GridLayout(0, 10));;
+		SelectionPanel = new JPanel(new GridLayout(0, 11));;
 		
 		
 		 for (int i = 0; i < selectionButtons.length; i++) {
@@ -354,6 +403,11 @@ public class Gui extends JFrame {
              SelectionPanel.add(selectionButtons[i]);
         }
 		
+		btnRotate = new JButton("Rotate");
+		
+		
+		btnMirror = new JButton("Mirror");
+		
 		
 		GroupLayout gl_Board = new GroupLayout(Board);
 		gl_Board.setHorizontalGroup(
@@ -361,7 +415,12 @@ public class Gui extends JFrame {
 				.addGroup(gl_Board.createSequentialGroup()
 					.addContainerGap()
 					.addGroup(gl_Board.createParallelGroup(Alignment.LEADING)
-						.addComponent(btnMainMenu2, Alignment.TRAILING)
+						.addGroup(Alignment.TRAILING, gl_Board.createSequentialGroup()
+							.addComponent(btnMirror)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(btnRotate)
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(btnMainMenu2))
 						.addGroup(gl_Board.createSequentialGroup()
 							.addComponent(GameBoard, GroupLayout.PREFERRED_SIZE, 600, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.RELATED)
@@ -380,7 +439,10 @@ public class Gui extends JFrame {
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(SelectionPanel, GroupLayout.PREFERRED_SIZE, 130, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED, 203, Short.MAX_VALUE)
-					.addComponent(btnMainMenu2)
+					.addGroup(gl_Board.createParallelGroup(Alignment.BASELINE)
+						.addComponent(btnMainMenu2)
+						.addComponent(btnRotate)
+						.addComponent(btnMirror))
 					.addContainerGap())
 		);
 		
@@ -520,8 +582,11 @@ public static Color getColor(int x,int y) {
 	   int xPick = -1;
 	   int yPick = -1;
 	   
-	   xPick = receiveX();
-	   yPick = receiveY();
+	   int[] tempCoord = new int[2];
+	   tempCoord = receiveXY();
+	   
+	   xPick = tempCoord[0];
+	   yPick = tempCoord[1];
 	    
 	   
 		
@@ -578,7 +643,18 @@ public static Color getColor(int x,int y) {
 			xPick = -1;
 			yPick = -1;
 			piecePick = -1;
+			
+			for(int i = 0; i < rotates;i++) {
+				temp = rotateRight(temp);
+			}
+			for(int i = 0; i < mirrors;i++) {
+				temp = mirrorPiece(temp);
+			}
+			
+			rotates = 0;
+			mirrors = 0;
 			return temp;
+			
 	  }
 
 	public static Square[] pieceOne (int locationX,int locationY) {
@@ -805,16 +881,14 @@ public static Color getColor(int x,int y) {
 		return piece;
 	}
 
-	public static Square[] mirrorPiece(Square[] piece) {
-	   for (int i=1;i<piece.length;i++){
-		   int relativeCoordinateX = piece[i].xLoc - piece[0].xLoc;
-		   int temp=relativeCoordinateX;
-		   relativeCoordinateX=-relativeCoordinateX;
-		   relativeCoordinateX=temp;
-		   piece[i].xLoc = piece[0].xLoc + relativeCoordinateX;
+	 Square[] mirrorPiece(Square[] piece) {
+		   for (int i=1;i<piece.length;i++){
+			   int relativeCoordinateX = piece[i].yLoc - piece[0].yLoc;
+			   relativeCoordinateX=-relativeCoordinateX;
+			   piece[i].yLoc = piece[0].yLoc + relativeCoordinateX;
+		   }
+	   	return piece;
 	   }
-		return piece;
-	}
 	
 	Square[] getHover() {
 		
@@ -901,34 +975,8 @@ public static Color getColor(int x,int y) {
 	        return piecePick;
 	    }
 	 
-	 public synchronized void sendX(int packet) {
-	        while (!xTransfer) {
-	            try { 
-	                wait();
-	            } catch (InterruptedException e)  {
-	                
-	            }
-	        }
-	        xTransfer = false;
-	         
-	        this.xPick = packet;
-	        notifyAll();
-	    }
-	 
-	 public synchronized int receiveX() {
-	        while (xTransfer) {
-	            try {
-	                wait();
-	            } catch (InterruptedException e)  {
-	                 
-	            }
-	        }
-	        xTransfer = true;
-	 
-	        notifyAll();
-	        return xPick;
-	    }
-	 public synchronized void sendY(int packet) {
+	
+	 public synchronized void sendXY(int[] packet) {
 	        while (!yTransfer) {
 	            try { 
 	                wait();
@@ -938,11 +986,11 @@ public static Color getColor(int x,int y) {
 	        }
 	        yTransfer = false;
 	         
-	        this.yPick = packet;
+	        this.xy = packet;
 	        notifyAll();
 	    }
 	 
-	 public synchronized int receiveY() {
+	 public synchronized int[] receiveXY() {
 	        while (yTransfer) {
 	            try {
 	                wait();
@@ -953,10 +1001,6 @@ public static Color getColor(int x,int y) {
 	        yTransfer = true;
 	 
 	        notifyAll();
-	        return yPick;
+	        return xy;
 	    }
-	 
-	 
-	
-	
 }
