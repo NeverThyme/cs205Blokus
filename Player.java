@@ -27,7 +27,7 @@ public class Player {
     int points = 0;
    
     Color color;
-    Square[][] pieces = new Square [1][1];
+    //[][] pieces = new Square [1][1];
     boolean firstTurnP = true;
     boolean firstTurnC = true;
     
@@ -37,7 +37,7 @@ public class Player {
     public Player(Color olor){
         color = olor;
         
-        pieces[0][0] = new Square();
+     //   pieces[0][0] = new Square();
         
         for(int i = 0; i < 21; i++) {
     		pieceUsed[i] = false;
@@ -98,7 +98,7 @@ public class Player {
     }
 
     public Board computerTurn(Board board, Color color) {
-    	Square[] computerPiece = pieces[0];
+    	Square[] computerPiece;
     	int x,y;
     	x = computerXPick();
     	y = computerYPick();
@@ -688,13 +688,8 @@ int computerYPick() {
     }
 
 
-    void removePiece(Square[] piece){
-        for(int i = 0; i < pieces.length; i++){
-        	
-        }
-        
-
-    }
+   
+   
     Square[] pieceOne (int locationX,int locationY) {
     	Square[] tempPiece = new Square[1];
     	tempPiece[0] = new Square(locationX,locationY);
@@ -750,8 +745,8 @@ int computerYPick() {
     	Square[] tempPiece = new Square[4];
     	tempPiece[0] = new Square(locationX,locationY);
     	tempPiece[1] = new Square(locationX-1,locationY);
-    	tempPiece[2] = new Square(locationX+1,locationY);
-    	tempPiece[3] = new Square(locationX+2,locationY);
+    	tempPiece[2] = new Square(locationX+1,locationY+1);
+    	tempPiece[3] = new Square(locationX+2,locationY+1);
     	return tempPiece;
     }
     
@@ -921,11 +916,9 @@ int computerYPick() {
    
    Square[] mirrorPiece(Square[] piece) {
 	   for (int i=1;i<piece.length;i++){
-		   int relativeCoordinateX = piece[i].xLoc - piece[0].xLoc;
-		   int temp=relativeCoordinateX;
+		   int relativeCoordinateX = piece[i].yLoc - piece[0].yLoc;
 		   relativeCoordinateX=-relativeCoordinateX;
-		   relativeCoordinateX=temp;
-		   piece[i].xLoc = piece[0].xLoc + relativeCoordinateX;
+		   piece[i].yLoc = piece[0].yLoc + relativeCoordinateX;
 	   }
    	return piece;
    }
