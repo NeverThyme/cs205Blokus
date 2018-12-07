@@ -750,8 +750,8 @@ int computerYPick() {
     	Square[] tempPiece = new Square[4];
     	tempPiece[0] = new Square(locationX,locationY);
     	tempPiece[1] = new Square(locationX-1,locationY);
-    	tempPiece[2] = new Square(locationX+1,locationY+1);
-    	tempPiece[3] = new Square(locationX+2,locationY+1);
+    	tempPiece[2] = new Square(locationX+1,locationY);
+    	tempPiece[3] = new Square(locationX+2,locationY);
     	return tempPiece;
     }
     
