@@ -456,23 +456,23 @@ public class Gui extends JFrame {
 		btnMainMenu = new JButton("Main Menu");
 		
 		
-		lblInsertInstructionsFor = new JLabel("HOW TO PLAY\\r\\n\" + \r\n" + 
-				"				\"1. Each player chooses a color and places that set of 21 pieces in front of his/her side of the\\r\\n\" + \r\n" + 
-				"				\"board. The order of play is as follows: blue, yellow, red, and then green.\\r\\n\" + \r\n" + 
-				"				\"2. The first player (blue) places any of his/her pieces in a corner square. Play proceeds\\r\\n\" + \r\n" + 
-				"				\"clockwise around the board (yellow, red, and green), each player putting their first piece down\\r\\n\" + \r\n" + 
-				"				\"in one of the corner squares.\\r\\n\" + \r\n" + 
-				"				\"3. Play continues as each player lays down one piece during a turn.\\r\\n\" + \r\n" + 
-				"				\"- Each new piece must touch at least one other piece of the same color, but only at the\\r\\n\" + \r\n" + 
-				"				\"corners.\\r\\n\" + \r\n" + 
-				"				\"- No flat edges of same color pieces can touch.\\r\\n\" + \r\n" + 
-				"				\"- There are no restrictions on how pieces of different colors can touch one another.\\r\\n\" + \r\n" + 
-				"				\"4. Whenever a player is unable to place one of his/her remaining pieces on the board, that\\r\\n\" + \r\n" + 
-				"				\"player must pass his/her turn.\\r\\n\" + \r\n" + 
-				"				\"End of Game\\r\\n\" + \r\n" + 
-				"				\"The game ends when all players are blocked from laying down any more of their pieces. This\\r\\n\" + \r\n" + 
-				"				\"also includes any players who may have placed all of their pieces on the board. Scores are\\r\\n\" + \r\n" + 
-				"				\"tallied, and the player with the highest score is the winner.");
+		lblInsertInstructionsFor = new JLabel("<html>HOW TO PLAY<br>" + 
+				"				1. Each player chooses a color and places that set of 21 pieces in front of his/her side of the<br>" + 
+				"				board. The order of play is as follows: blue, yellow, red, and then green.<br>" + 
+				"				2. The first player (blue) places any of his/her pieces in a corner square. Play proceeds" + 
+				"				clockwise around the board (yellow, red, and green), each player putting their first piece down<br>" + 
+				"				in one of the corner squares.<br>" + 
+				"				3. Play continues as each player lays down one piece during a turn.<br>" + 
+				"				- Each new piece must touch at least one other piece of the same color, but only at the" + 
+				"				corners.<br>" + 
+				"				- No flat edges of same color pieces can touch.<br>" + 
+				"				- There are no restrictions on how pieces of different colors can touch one another.<br>" + 
+				"				4. Whenever a player is unable to place one of his/her remaining pieces on the board, that<br>" + 
+				"				player must pass his/her turn.<br>" + 
+				"				End of Game<br>" + 
+				"				The game ends when all players are blocked from laying down any more of their pieces. This<br>" + 
+				"				also includes any players who may have placed all of their pieces on the board. Scores are<br>" + 
+				"				tallied, and the player with the highest score is the winner.");
 		GroupLayout gl_Instructions = new GroupLayout(Instructions);
 		gl_Instructions.setHorizontalGroup(
 			gl_Instructions.createParallelGroup(Alignment.TRAILING)
