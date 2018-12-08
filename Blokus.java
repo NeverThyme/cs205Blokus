@@ -8,16 +8,17 @@ public class Blokus {
 	static int xPick = -1;
 	static int yPick = -1;
 	static int pieceNum =-1;
+	static Player player = new Player(Color.RED);
+	static Player computer = new Player(Color.BLUE);
+	static Player player2 = new Player(Color.GREEN);
+	static Player computer2 = new Player(Color.YELLOW);
 
 	public static void main(String[] args) {
 		
 		
 		// field init
 		
-		Player player = new Player(Color.RED);
-		Player computer = new Player(Color.BLUE);
-		Player player2 = new Player(Color.GREEN);
-		Player computer2 = new Player(Color.YELLOW);
+		
 		Gui frame = new Gui();
 
 		Board board = new Board();
@@ -102,6 +103,8 @@ public class Blokus {
 	//Aaron Wise
 		
 	public static void updateGUI( Board board, Gui frame ) {
+		
+		frame.setScore("G = "+player2.getPoints()+ " R = "+player.getPoints()+ " Y = "+computer2.getPoints()+ " B = "+computer.getPoints());
 			
 			for(int i = 0; i < 20 ; ++i) {
 			    for(int j = 0; j < 20; ++j) {
@@ -112,5 +115,5 @@ public class Blokus {
 			    }
 			  }
 			}
-}
-			
+		
+}	
