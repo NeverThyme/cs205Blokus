@@ -16,6 +16,7 @@ public class Player {
 	int compLastX;
 	int compLastY;
 	Square[] compLastPiece;
+	int numThrough =0; 
 	
 	boolean placed = false;
 
@@ -82,6 +83,12 @@ public class Player {
         if (canPlacePiece){
         	
             board = placePiece(player1XPick, player1YPick, player1Pick, color, board);
+            if (firstTurnP) {
+            	if (color == Color.GREEN) {
+            		board.gameBoard[0][0].color = Color.GREEN;
+            	}
+            		
+            }
            
             placed = true;
             
@@ -108,6 +115,7 @@ public class Player {
     
     public Board computerTurn(Board board, Color color) {
     	
+    	numThrough = 0;
     	Square[] computerPiece;
     	//getting placement
     	int x,y;
@@ -132,6 +140,10 @@ public class Player {
     	boolean ex = true;
     	while(ex) {
     		try {
+    			if (numThrough == 200){
+    				break;
+    			}
+    			numThrough ++;
     			board = placePiece(x, y, computerPiece, color, board);
     			ex = false;
     		}
@@ -729,8 +741,8 @@ int computerYPick() {
     	Square[] tempPiece = new Square[4];
     	tempPiece[0] = new Square(locationX,locationY);
     	tempPiece[1] = new Square(locationX-1,locationY);
-    	tempPiece[2] = new Square(locationX+1,locationY+1);
-    	tempPiece[3] = new Square(locationX+2,locationY+1);
+    	tempPiece[2] = new Square(locationX+1,locationY);
+    	tempPiece[3] = new Square(locationX+2,locationY);
     	return tempPiece;
     }
     
