@@ -1,3 +1,6 @@
+//Player class contains teh majority of the game logic including the computer
+//Robert Duarte, Kyle Michel, George Tolley, Aaron Wise
+
 import java.lang.Object;
 import java.util.Random;
 import java.util.Scanner;
@@ -9,6 +12,7 @@ import java.util.concurrent.TimeUnit;
 
 public class Player {
 	
+	//Field Init
 	int compLastX;
 	int compLastY;
 	Square[] compLastPiece;
@@ -33,7 +37,8 @@ public class Player {
     
   
 //======================================================================================================================
-
+    
+    //Constructor that sets color and pieceUsed init
     public Player(Color olor){
         color = olor;
         
@@ -45,16 +50,19 @@ public class Player {
         
     }
 
-    //temp default constructor to fix computer heirarchy problems
+    
     public Player(){
     	 for(int i = 0; i < 21; i++) {
      		pieceUsed[i] = false;
      	}
     }
 //======================================================================================================================
-
+    
+    //Method that takes a Piece, checks if it can be placed at location, and if so calls the placement method
+    //Robert Duarte, Kyle Michel, George Tolley, Aaron Wise
     public Board playerTurn(Board board , Gui frame, Square[] pick, int playerPick) {
     	
+    	//field init
     	player1Click = playerPick;
     	placed = false;
     	
@@ -64,15 +72,13 @@ public class Player {
     	}
 
     	boolean canPlacePiece = false;
-    	//while(!canPlacePiece) {
-
-        //player1Pick = getPiece(frame);
+    	
     	player1Pick = pick;
 
         //validate location
         canPlacePiece = checkPlacement( player1Pick, board, color);
-		//canPlacePiece = true;
-        
+		
+        //if valid calls place
         if (canPlacePiece){
         	
             board = placePiece(player1XPick, player1YPick, player1Pick, color, board);
@@ -96,15 +102,22 @@ public class Player {
 
 
     }
-
+    
+    //Computer Turn method picks piece, and placements. Then validates and places on the board
+  //Robert Duarte, Kyle Michel, George Tolley, Aaron Wise
+    
     public Board computerTurn(Board board, Color color) {
+    	
     	Square[] computerPiece;
+    	//getting placement
     	int x,y;
     	x = computerXPick();
     	y = computerYPick();
     	
+    	//getting piece
     	computerPiece = getPiece(x,y);
     	
+    	//loop that validates and places or picks new piece and placement then repeats.
     	boolean canPlacePiece = false;
     	while(!canPlacePiece) {
     		
@@ -185,8 +198,11 @@ public class Player {
         return player1XPick;
     }
     
+    //returns x location for computer turn
+  //George Tolley, Aaron Wise
     int computerXPick() {
     	
+    	//First turn placement
     	if(firstTurnC) {
     	if(color == Color.BLUE) {
 			return 19;
@@ -198,6 +214,7 @@ public class Player {
 			}
     	}
     	
+    	//Otherwise random with a bias twoards previously placed pieces
     	Random rand = new Random();
     	
     	int randSquare = rand.nextInt(compLastPiece.length);
@@ -218,6 +235,8 @@ public class Player {
     	
     	
     }
+    //returns y location for computer turn same as previous method
+    //George Tolley, Aaron Wise
     
 int computerYPick() {
     	
@@ -264,8 +283,12 @@ int computerYPick() {
         return player1YPick;
     }
 
+    //Methods that checks the piece bieng placed against the current board state to see if it will fit
+    //Aaron Wise
+    
     boolean checkPlacement( Square[] piece, Board board, Color color){
 
+    	//Checks for out of bounds or already taken
     	for (Square s : piece){
     		
     		//System.out.println(s.xLoc);
@@ -283,7 +306,7 @@ int computerYPick() {
     			return false;
     		}
 
-    		
+    		// if not first turn
     		if(!firstTurnP) {
     			
     			boolean up = false;
@@ -291,6 +314,7 @@ int computerYPick() {
 				boolean right = false;
 				boolean down = false;
 				
+				// loop that checks which parts of a piece are a corner
     			for (int i = 0; i < piece.length; i ++) {
     					
     				
@@ -317,6 +341,8 @@ int computerYPick() {
     			//System.out.println(down);
     			//System.out.println(left);
     			//System.out.println(right);
+    			
+    			//The rest of the if statements check corners against the current state of the board. checking if taken and color of pieces on board
     			
     			if(!up && !down && !left && !right ) {
 					
@@ -574,6 +600,7 @@ int computerYPick() {
     			
     		}
     			
+    		//placement check for first turn. Must be corner
     		
     		if (firstTurnP){
     			
@@ -611,55 +638,11 @@ int computerYPick() {
 
     	return false;
     	
-    	/*
-    	if (firstTurnP && color == color.RED) {
-            for (int i = 0; i < piece.length; i++) {
-            	if(piece[i].xLoc == 0 && piece[i].yLoc == 19) {
-            		firstTurnP = false;
-            		return true;
-            		
-            	}
-            }
-    	}
     	
-    	if (firstTurnC && color == color.BLUE) {
-            for (int i = 0; i < piece.length; i++) {
-            	if(piece[i].xLoc == 19 && piece[i].yLoc == 0) {
-            		firstTurnC = false;
-            		return true;
-            		
-            	}
-            }
-    	}
-        if (!board.getTaken(y, x)){
-            for (int i = 0; i < piece.length; i++) {
-                if(!Board.getTaken(piece[i].xLoc, piece[i].yLoc) && piece[i].xLoc >= 0 && piece[i].yLoc >= 0 && piece[i].xLoc <= 19 && piece[i].yLoc <= 19){
-                	if(Board.getTaken(piece[i].xLoc + 1, piece[i].yLoc + 1) || Board.getTaken(piece[i].xLoc + 1, piece[i].yLoc - 1) || Board.getTaken(piece[i].xLoc - 1, piece[i].yLoc + 1) || Board.getTaken(piece[i].xLoc - 1, piece[i].yLoc - 1)) {
-                    	if(Board.getColor(piece[i].xLoc + 1, piece[i].yLoc + 1) == color || Board.getColor(piece[i].xLoc + 1, piece[i].yLoc - 1) == color ||Board.getColor(piece[i].xLoc - 1, piece[i].yLoc + 1) == color ||Board.getColor(piece[i].xLoc - 1, piece[i].yLoc - 1) == color) {
-                    		
-                		}
-                    	else {
-                    		return false;
-                    	}
-                	}
-                	else {
-                		return false;
-                	}
-                }
-                else {
-                	return false;
-                }
-            }
-        }
-        else {
-            return false;
-        }
-       
-        return true;
-        */
     }
 
     //also adds points
+    // updates board with piece
     Board placePiece(int x, int y, Square[] piece, Color color, Board board) {
     	firstTurnP = false;
         for (Square s : piece){
@@ -687,7 +670,8 @@ int computerYPick() {
         color = newColor;
     }
 
-
+    //Methods that return a array of squares that work as pieces
+    //Kyle Michel
    
    
     Square[] pieceOne (int locationX,int locationY) {
@@ -900,6 +884,9 @@ int computerYPick() {
     	return tempPiece;
     	
     }
+    
+    //Methods for rotate a mirror
+    //Kyle Michel
    Square[] rotateRight(Square[] piece) {
     	
     	for (int i=1;i<piece.length;i++){
@@ -923,7 +910,9 @@ int computerYPick() {
    	return piece;
    }
    
+   //Returns piece based on computer input
    
+   //Kyle Michel, Aaron Wise, Robert Duarte
    
    public Square[] getPiece(int x , int y){
 		
