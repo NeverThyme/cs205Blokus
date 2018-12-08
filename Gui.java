@@ -80,6 +80,8 @@ public class Gui extends JFrame {
     private static boolean pTransfer = true;
     private static boolean xTransfer = true;
     private static boolean yTransfer = true;
+    private JLabel Scores;
+    private JLabel consoleOutput;
     
    
    
@@ -166,7 +168,7 @@ public class Gui extends JFrame {
 	        }
 		
 		 	//picking piece event
-	      for (int i = 0; i <20; i++) {
+	      for (int i = 0; i <21; i++) {
           	
           	int pick = i;
                selectionButtons[i].addMouseListener(new MouseAdapter() {
@@ -383,7 +385,7 @@ public class Gui extends JFrame {
          }
 		
 		 //adding buttons to Panel
-		 for (int i = 0; i <20; i++) {
+		 for (int i = 0; i <21; i++) {
              SelectionPanel.add(selectionButtons[i]);
         }
 		
@@ -393,6 +395,10 @@ public class Gui extends JFrame {
 		
 		btnMirror = new JButton("Mirror");
 		
+		Scores = new JLabel("Scores: G =   R =   Y =   B =");
+		
+		consoleOutput = new JLabel("Console Output");
+		
 		
 		//adding buttons to the game pane
 		GroupLayout gl_Board = new GroupLayout(Board);
@@ -401,13 +407,16 @@ public class Gui extends JFrame {
 				.addGroup(gl_Board.createSequentialGroup()
 					.addContainerGap()
 					.addGroup(gl_Board.createParallelGroup(Alignment.LEADING)
+						.addComponent(consoleOutput, GroupLayout.PREFERRED_SIZE, 346, GroupLayout.PREFERRED_SIZE)
 						.addGroup(Alignment.TRAILING, gl_Board.createSequentialGroup()
+							.addComponent(Scores, GroupLayout.PREFERRED_SIZE, 404, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED, 526, Short.MAX_VALUE)
 							.addComponent(btnMirror)
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(btnRotate)
 							.addPreferredGap(ComponentPlacement.UNRELATED)
 							.addComponent(btnMainMenu2))
-						.addGroup(gl_Board.createSequentialGroup()
+						.addGroup(Alignment.TRAILING, gl_Board.createSequentialGroup()
 							.addComponent(GameBoard, GroupLayout.PREFERRED_SIZE, 600, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addGroup(gl_Board.createParallelGroup(Alignment.LEADING)
@@ -423,12 +432,18 @@ public class Gui extends JFrame {
 						.addComponent(GameBoard, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(PiecePanel, GroupLayout.PREFERRED_SIZE, 397, GroupLayout.PREFERRED_SIZE))
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(SelectionPanel, GroupLayout.PREFERRED_SIZE, 130, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED, 203, Short.MAX_VALUE)
-					.addGroup(gl_Board.createParallelGroup(Alignment.BASELINE)
-						.addComponent(btnMainMenu2)
-						.addComponent(btnRotate)
-						.addComponent(btnMirror))
+					.addGroup(gl_Board.createParallelGroup(Alignment.TRAILING)
+						.addGroup(gl_Board.createSequentialGroup()
+							.addComponent(SelectionPanel, GroupLayout.PREFERRED_SIZE, 130, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED, 203, Short.MAX_VALUE)
+							.addGroup(gl_Board.createParallelGroup(Alignment.BASELINE)
+								.addComponent(btnMainMenu2)
+								.addComponent(btnRotate)
+								.addComponent(btnMirror)))
+						.addGroup(gl_Board.createSequentialGroup()
+							.addComponent(consoleOutput, GroupLayout.PREFERRED_SIZE, 70, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(Scores, GroupLayout.PREFERRED_SIZE, 69, GroupLayout.PREFERRED_SIZE)))
 					.addContainerGap())
 		);
 		
@@ -543,12 +558,14 @@ public static Color getColor(int x,int y) {
 	public Square[] getPiece(){
 		
 		int piecePick = -1;
+		
+		setConsole("Pick what piece to play");
 		System.out.println("Pick what piece to play");
 		//input from user
 		piecePick = receivePick();
 		
 		
-	    
+	    setConsole("Pick where to place piece");
 	    System.out.println("Pick where to place piece");
 	 
 	   int xPick = -1;
@@ -687,11 +704,14 @@ public static Color getColor(int x,int y) {
 	}
 
 	public static Square[] pieceSeven (int locationX,int locationY) {
+		
+		
+		
 		Square[] tempPiece = new Square[4];
 		tempPiece[0] = new Square(locationX,locationY);
 		tempPiece[1] = new Square(locationX-1,locationY);
-		tempPiece[2] = new Square(locationX+1,locationY+1);
-		tempPiece[3] = new Square(locationX+2,locationY+1);
+		tempPiece[2] = new Square(locationX+1,locationY);
+		tempPiece[3] = new Square(locationX+2,locationY);
 		return tempPiece;
 	}
 
@@ -986,4 +1006,17 @@ public static Color getColor(int x,int y) {
 	        notifyAll();
 	        return xy;
 	    }
+	 
+	 void setConsole (String S) {
+		 
+		 consoleOutput.setText(S);
+		 
+	 }
+	 
+	 void setScore (String S) {
+		 
+		 Scores.setText(S);
+		 
+	 }
+	 
 }
