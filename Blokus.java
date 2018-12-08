@@ -1,3 +1,6 @@
+//Main class that runs the turns of our game.
+//Robert Duarte, Kyle Michel, George Tolley, Aaron Wise
+
 import java.awt.Color;
 import java.awt.EventQueue;
 
@@ -16,10 +19,7 @@ public class Blokus {
 		Player player2 = new Player(Color.GREEN);
 		Player computer2 = new Player(Color.YELLOW);
 		Gui frame = new Gui();
-		
-		
 
-		
 		Board board = new Board();
 		board.makeBoard();
 		board.getTaken(0, 0);
@@ -97,6 +97,9 @@ public class Blokus {
 		
 			
 	}}
+	
+	//Method that update the colors of the Gui based of the board stat
+	//Aaron Wise
 		
 	public static void updateGUI( Board board, Gui frame ) {
 			
@@ -111,11 +114,3 @@ public class Blokus {
 			}
 		
 			
-		
-		
-	
-
-
-}
-	
-	
