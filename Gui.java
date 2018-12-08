@@ -1,3 +1,6 @@
+// Gui class made by Aaron Wise Robert Duarte Kyle Michel
+
+
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.GridLayout;
@@ -35,51 +38,64 @@ import java.awt.Color;
 import java.awt.event.MouseMotionAdapter;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 public class Gui extends JFrame {
 
+	//Component field variables
 	private JPanel contentPane;
 	private JButton btnInstructions;
 	private JButton btnMainMenu;
 	private JLabel lblInsertInstructionsFor;
 	private JPanel MainMenu;
 	private JPanel Instructions;
-	private JPanel Settings;
 	private JPanel Board;
 	private JButton btnPlay;
-	private JButton btnSettings;
 	private JButton btnExit;
-	private JButton btnMainMenu_2;
-	
 	private final JPanel GameBoard = new JPanel(new BorderLayout(3, 3));
 	private static JButton[][] blockusBoardSquares = new JButton[20][20];
     private JPanel blockusBoard;
     private JButton btnMainMenu2;
 	private JButton[] selectionButtons = new JButton[21];
-    
-    
+	private JPanel PiecePanel;
+	private JPanel SelectionPanel;
+	private JButton btnMirror;
+	private JButton btnRotate;
+	
+	
+	//field variables to be used with the methods
+	int rotates = 0;
+	int mirrors = 0;
     static int xPick = -1;
     static int yPick = -1;
     boolean pickReady = false;
     static int piecePick = 1;
     
+    Square[] hover;
+    
+    int[] xy = new int[2];
+    
     private static boolean pTransfer = true;
     private static boolean xTransfer = true;
     private static boolean yTransfer = true;
     
-    private JPanel PiecePanel;
-    private JPanel SelectionPanel;
-    
-	/**
-	 * Create the frame.
-	 */
+   
+   
+	//Constructor calls the initialization methods
+    //Aaron Wise
 	public Gui() {
+		
 		
 		componentInit();
 		eventInit();
 		
+		
 	}
-
+	
+	//Initializes the Event Listeners which get input from the user
+	//Aaron Wise
 	private void eventInit() {
 		////////Main Menu events//////////
 		btnInstructions.addMouseListener(new MouseAdapter() {
@@ -100,13 +116,7 @@ public class Gui extends JFrame {
 			}
 		});
 		
-		btnSettings.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				MainMenu.setVisible(false);
-				Settings.setVisible(true);
-			}
-		});
+		
 		
 		btnExit.addMouseListener(new MouseAdapter() {
 			@Override
@@ -124,15 +134,6 @@ public class Gui extends JFrame {
 			}
 		});
 		
-		////////////Settings Events//////////
-		btnMainMenu_2.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				Settings.setVisible(false);
-				MainMenu.setVisible(true);
-			}
-		});
-		
 		///////////Baord events////////////
 		btnMainMenu2.addMouseListener(new MouseAdapter() {
 			@Override
@@ -143,7 +144,7 @@ public class Gui extends JFrame {
 			}
 		});
 		
-		
+		//Board event
 		 for (int ii = 0; ii < 20; ii++) {
 	            for (int jj = 0; jj <20; jj++) {
 	            	int j = ii;
@@ -152,8 +153,10 @@ public class Gui extends JFrame {
 	         			@Override
 	        			public void mouseClicked(MouseEvent arg0) {
 	        				
-	         				sendX (i);
-	         				sendY (j);
+	         				xy[0] = i;
+	         				xy[1] = j;
+	         				
+	         				sendXY(xy);
 	         				pickReady = true;
 	         				
 
@@ -162,6 +165,7 @@ public class Gui extends JFrame {
 	            }
 	        }
 		
+		 	//picking piece event
 	      for (int i = 0; i <20; i++) {
           	
           	int pick = i;
@@ -176,6 +180,7 @@ public class Gui extends JFrame {
       		});
           }
 	      
+	      //Events that create the hover effect
 	      for (int ii = 0; ii < 20; ii++) {
 	            for (int jj = 0; jj <20; jj++) {
 	            	int i = ii;
@@ -186,9 +191,16 @@ public class Gui extends JFrame {
 				public void mouseEntered(java.awt.event.MouseEvent evt) {
 					
 					
-						Square[] temp = getHover();
+						hover = getHover();
+						for(int i = 0; i < rotates;i++) {
+							hover = rotateRight(hover);
+						}
+						for(int i = 0; i < mirrors;i++) {
+							hover = mirrorPiece(hover);
+						}
 						
-						for(Square s : temp) {
+						
+						for(Square s : hover) {
 							try {
 								if (blockusBoardSquares[i+s.yLoc][j+s.xLoc].getBackground() == Color.white) {
 							blockusBoardSquares[i+s.yLoc][j+s.xLoc].setBackground(Color.pink);
@@ -202,12 +214,18 @@ public class Gui extends JFrame {
 	    	    	
 					}
 	    	    }
-
+				// Event that removes hover effect
 	    	    public void mouseExited(java.awt.event.MouseEvent evt) {
 	    	    	
-	    	    		Square[] temp2 = getHover();
+	    	    		hover = getHover();
+	    	    		for(int i = 0; i < rotates;i++) {
+							hover = rotateRight(hover);
+						}
+						for(int i = 0; i < mirrors;i++) {
+							hover = mirrorPiece(hover);
+						}
 						
-						for(Square s : temp2) {
+						for(Square s : hover) {
 							try {
 					if (blockusBoardSquares[i+s.yLoc][j+s.xLoc].getBackground() == Color.pink) {
 	    	    		blockusBoardSquares[i+s.yLoc][j+s.xLoc].setBackground(temp);
@@ -223,13 +241,34 @@ public class Gui extends JFrame {
 	    	});
 		
 	            }
+	            
+	            
 	      }
-		
-
+	     
+	      //event for rotate and mirror methods
+	      btnRotate.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent arg0) {
+					
+					rotates ++;
+				}
+			});
+	      
+	      btnMirror.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent arg0) {
+					mirrors ++;
+				}
+			});
+	   
+	    
+	      
+	      
 	}
 	
 	
-
+	//Method that initializes the components in the Gui
+	//Aaron Wise
 	private void componentInit() {
 		
 		
@@ -248,11 +287,6 @@ public class Gui extends JFrame {
 		
 		btnInstructions = new JButton("Instructions");
 		btnPlay = new JButton("Play");
-		btnSettings = new JButton("Settings");
-		btnSettings.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
 		btnExit = new JButton("Exit");
 		
 		GroupLayout gl_MainMenu = new GroupLayout(MainMenu);
@@ -262,30 +296,28 @@ public class Gui extends JFrame {
 					.addGap(167)
 					.addGroup(gl_MainMenu.createParallelGroup(Alignment.LEADING)
 						.addComponent(btnExit, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 563, Short.MAX_VALUE)
-						.addComponent(btnSettings, GroupLayout.DEFAULT_SIZE, 563, Short.MAX_VALUE)
 						.addComponent(lblBlockus, GroupLayout.DEFAULT_SIZE, 563, Short.MAX_VALUE)
 						.addComponent(btnPlay, GroupLayout.DEFAULT_SIZE, 563, Short.MAX_VALUE)
 						.addComponent(btnInstructions, GroupLayout.DEFAULT_SIZE, 563, Short.MAX_VALUE))
 					.addGap(584))
 		);
 		gl_MainMenu.setVerticalGroup(
-			gl_MainMenu.createParallelGroup(Alignment.TRAILING)
-				.addGroup(Alignment.LEADING, gl_MainMenu.createSequentialGroup()
+			gl_MainMenu.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_MainMenu.createSequentialGroup()
 					.addContainerGap()
 					.addComponent(lblBlockus, GroupLayout.PREFERRED_SIZE, 167, GroupLayout.PREFERRED_SIZE)
 					.addGap(49)
 					.addComponent(btnPlay, GroupLayout.PREFERRED_SIZE, 107, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(btnInstructions, GroupLayout.PREFERRED_SIZE, 109, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(btnSettings, GroupLayout.PREFERRED_SIZE, 106, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGap(130)
 					.addComponent(btnExit, GroupLayout.PREFERRED_SIZE, 111, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap(113, Short.MAX_VALUE))
 		);
 		MainMenu.setLayout(gl_MainMenu);
 		
 		Board = new JPanel();
+		
 		contentPane.add(Board, "name_3012008420420962");
 		
 		
@@ -315,7 +347,7 @@ public class Gui extends JFrame {
             }
         }
 
-       
+       //add square to the board
         for (int ii = 0; ii < 20; ii++) {
             for (int jj = 0; jj <20; jj++) {
                  blockusBoard.add(blockusBoardSquares[jj][ii]);
@@ -327,7 +359,7 @@ public class Gui extends JFrame {
 		
 		btnMainMenu2 = new JButton("MainMenu");
 	
-		
+		// start of piece selection buttons
 		PiecePanel = new JPanel();
 		try {
 		BufferedImage myPicture = ImageIO.read(new File("Screen Shot 2018-11-14 at 1.33.19 PM.png"));
@@ -338,9 +370,9 @@ public class Gui extends JFrame {
 			
 		}
 		
-		SelectionPanel = new JPanel(new GridLayout(0, 10));;
+		SelectionPanel = new JPanel(new GridLayout(0, 11));;
 		
-		
+		//Creation of selection buttons
 		 for (int i = 0; i < selectionButtons.length; i++) {
              JButton b = new JButton();
              b.setMargin(buttonMargin);
@@ -350,18 +382,31 @@ public class Gui extends JFrame {
              selectionButtons[i] = b;
          }
 		
+		 //adding buttons to Panel
 		 for (int i = 0; i <20; i++) {
              SelectionPanel.add(selectionButtons[i]);
         }
 		
+		 //Start of adding mirror and rotate buttons
+		btnRotate = new JButton("Rotate");
 		
+		
+		btnMirror = new JButton("Mirror");
+		
+		
+		//adding buttons to the game pane
 		GroupLayout gl_Board = new GroupLayout(Board);
 		gl_Board.setHorizontalGroup(
 			gl_Board.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_Board.createSequentialGroup()
 					.addContainerGap()
 					.addGroup(gl_Board.createParallelGroup(Alignment.LEADING)
-						.addComponent(btnMainMenu2, Alignment.TRAILING)
+						.addGroup(Alignment.TRAILING, gl_Board.createSequentialGroup()
+							.addComponent(btnMirror)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(btnRotate)
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(btnMainMenu2))
 						.addGroup(gl_Board.createSequentialGroup()
 							.addComponent(GameBoard, GroupLayout.PREFERRED_SIZE, 600, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.RELATED)
@@ -380,7 +425,10 @@ public class Gui extends JFrame {
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(SelectionPanel, GroupLayout.PREFERRED_SIZE, 130, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED, 203, Short.MAX_VALUE)
-					.addComponent(btnMainMenu2)
+					.addGroup(gl_Board.createParallelGroup(Alignment.BASELINE)
+						.addComponent(btnMainMenu2)
+						.addComponent(btnRotate)
+						.addComponent(btnMirror))
 					.addContainerGap())
 		);
 		
@@ -400,6 +448,8 @@ public class Gui extends JFrame {
 		//GameBoard.setLayout(gl_GameBoard);
 		Board.setLayout(gl_Board);
 		
+		
+		//Start of the instructions pane
 		Instructions = new JPanel();
 		contentPane.add(Instructions, "name_3011557504655764");
 		
@@ -445,45 +495,29 @@ public class Gui extends JFrame {
 					.addContainerGap())
 		);
 		Instructions.setLayout(gl_Instructions);
-		
-		Settings = new JPanel();
-		contentPane.add(Settings, "name_3011991141227893");
-		
-		btnMainMenu_2 = new JButton("Main Menu");
-		
-		GroupLayout gl_Settings = new GroupLayout(Settings);
-		gl_Settings.setHorizontalGroup(
-			gl_Settings.createParallelGroup(Alignment.LEADING)
-				.addGroup(Alignment.TRAILING, gl_Settings.createSequentialGroup()
-					.addContainerGap(252, Short.MAX_VALUE)
-					.addComponent(btnMainMenu_2)
-					.addContainerGap())
-		);
-		gl_Settings.setVerticalGroup(
-			gl_Settings.createParallelGroup(Alignment.LEADING)
-				.addGroup(Alignment.TRAILING, gl_Settings.createSequentialGroup()
-					.addContainerGap(163, Short.MAX_VALUE)
-					.addComponent(btnMainMenu_2)
-					.addContainerGap())
-		);
-		Settings.setLayout(gl_Settings);
 		contentPane.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{MainMenu}));
 		
 		
 		
 	}
+	//Method that sets color of the gui game board
+	//Aaron Wise
 	
 	public void setColor(int i , int j , Color color) {
 		
 		blockusBoardSquares[j][i].setBackground(color);
 		
 	}
+	//Method that return the piece Num the user picked
+	//Aron Wise
 	public static int getPiecePick() {
 		
 		int temp = piecePick;
 		piecePick = -1;
 		return temp;
 	}
+	//Method that returns color of a specific square
+	//Aaron Wise
 public static Color getColor(int x,int y) {
 		
 		
@@ -503,14 +537,14 @@ public static Color getColor(int x,int y) {
 		return temp;
 	}
 	
-	public boolean getPickReady() {
-		return pickReady;
-	}
+//Method that gets user input from gui and return the chosen piece for use in turn method
+	//Aaron Wise Robert Duarte Kyle Michel
 	
 	public Square[] getPiece(){
 		
 		int piecePick = -1;
 		System.out.println("Pick what piece to play");
+		//input from user
 		piecePick = receivePick();
 		
 		
@@ -520,13 +554,18 @@ public static Color getColor(int x,int y) {
 	   int xPick = -1;
 	   int yPick = -1;
 	   
-	   xPick = receiveX();
-	   yPick = receiveY();
+	   // input from user
+	   int[] tempCoord = new int[2];
+	   tempCoord = receiveXY();
+	   
+	   xPick = tempCoord[0];
+	   yPick = tempCoord[1];
 	    
 	   
 		
 	    Square [] temp = pieceOne(xPick, yPick);
 	    
+	    //Switch that calls the correct method to build the desired piece
 		
 		switch(piecePick) {
 	 	case 1: temp = pieceOne(xPick, yPick);
@@ -578,8 +617,23 @@ public static Color getColor(int x,int y) {
 			xPick = -1;
 			yPick = -1;
 			piecePick = -1;
+			
+			//rotates and mirrors piece as appropriate
+			for(int i = 0; i < rotates;i++) {
+				temp = rotateRight(temp);
+			}
+			for(int i = 0; i < mirrors;i++) {
+				temp = mirrorPiece(temp);
+			}
+			
+			rotates = 0;
+			mirrors = 0;
 			return temp;
+			
 	  }
+	
+	//These methods return an array of squares to be used as a piece in the turn method
+	//Kyle Michel
 
 	public static Square[] pieceOne (int locationX,int locationY) {
 		Square[] tempPiece = new Square[1];
@@ -805,17 +859,17 @@ public static Color getColor(int x,int y) {
 		return piece;
 	}
 
-	public static Square[] mirrorPiece(Square[] piece) {
-	   for (int i=1;i<piece.length;i++){
-		   int relativeCoordinateX = piece[i].xLoc - piece[0].xLoc;
-		   int temp=relativeCoordinateX;
-		   relativeCoordinateX=-relativeCoordinateX;
-		   relativeCoordinateX=temp;
-		   piece[i].xLoc = piece[0].xLoc + relativeCoordinateX;
+	 Square[] mirrorPiece(Square[] piece) {
+		   for (int i=1;i<piece.length;i++){
+			   int relativeCoordinateX = piece[i].yLoc - piece[0].yLoc;
+			   relativeCoordinateX=-relativeCoordinateX;
+			   piece[i].yLoc = piece[0].yLoc + relativeCoordinateX;
+		   }
+	   	return piece;
 	   }
-		return piece;
-	}
 	
+	 //Method that returns a piece array to be used for hover effect
+	 //Aaron Wise Robert Duarte
 	Square[] getHover() {
 		
 		int xPick = 0;
@@ -873,6 +927,9 @@ public static Color getColor(int x,int y) {
 			return temp;
 	}
 	
+	//Last 4 methods for sending and reciveing user input 
+	//Aaron Wise
+	
 	 public synchronized void sendPick(int packet) {
 	        while (!pTransfer) {
 	            try { 
@@ -901,34 +958,8 @@ public static Color getColor(int x,int y) {
 	        return piecePick;
 	    }
 	 
-	 public synchronized void sendX(int packet) {
-	        while (!xTransfer) {
-	            try { 
-	                wait();
-	            } catch (InterruptedException e)  {
-	                
-	            }
-	        }
-	        xTransfer = false;
-	         
-	        this.xPick = packet;
-	        notifyAll();
-	    }
-	 
-	 public synchronized int receiveX() {
-	        while (xTransfer) {
-	            try {
-	                wait();
-	            } catch (InterruptedException e)  {
-	                 
-	            }
-	        }
-	        xTransfer = true;
-	 
-	        notifyAll();
-	        return xPick;
-	    }
-	 public synchronized void sendY(int packet) {
+	
+	 public synchronized void sendXY(int[] packet) {
 	        while (!yTransfer) {
 	            try { 
 	                wait();
@@ -938,11 +969,11 @@ public static Color getColor(int x,int y) {
 	        }
 	        yTransfer = false;
 	         
-	        this.yPick = packet;
+	        this.xy = packet;
 	        notifyAll();
 	    }
 	 
-	 public synchronized int receiveY() {
+	 public synchronized int[] receiveXY() {
 	        while (yTransfer) {
 	            try {
 	                wait();
@@ -953,10 +984,6 @@ public static Color getColor(int x,int y) {
 	        yTransfer = true;
 	 
 	        notifyAll();
-	        return yPick;
+	        return xy;
 	    }
-	 
-	 
-	
-	
 }

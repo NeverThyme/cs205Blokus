@@ -1,3 +1,6 @@
+//Main class that runs the turns of our game.
+//Robert Duarte, Kyle Michel, George Tolley, Aaron Wise
+
 import java.awt.Color;
 import java.awt.EventQueue;
 
@@ -16,18 +19,10 @@ public class Blokus {
 		Player player2 = new Player(Color.GREEN);
 		Player computer2 = new Player(Color.YELLOW);
 		Gui frame = new Gui();
-		int player1Score = 0;
-		int computer1Score = 0;
-		int player2Score = 0;
-		int computer2Score = 0;
-		
-		
 
-		
 		Board board = new Board();
 		board.makeBoard();
-		
-		
+		board.getTaken(0, 0);
 		
 	
 		///Runs Gui
@@ -36,6 +31,7 @@ public class Blokus {
 				try {
 					//Gui frame = new Gui();
 					frame.setVisible(true);
+					
 			
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -48,18 +44,18 @@ public class Blokus {
 		//Loop for running turns in game need to be linked with gui pages
 		while(true) {
 			
+			
 			while(!player.placed) {
 				
-			board = player.playerTurn(board, frame, frame.getPiece(), frame.piecePick);
 			
+			board = player.playerTurn(board, frame, frame.getPiece(), frame.piecePick);
+		
 			}
-			player1Score = player.getPoints();
 			player.placed = false;
 			updateGUI(board,frame);
 
 			
 			board = computer.computerTurn(board, computer.getColor());
-			computer1Score = computer.getPoints();
 
 			updateGUI(board,frame);
 			
@@ -69,12 +65,8 @@ public class Blokus {
 			board = player2.playerTurn(board, frame, frame.getPiece(),frame.piecePick);
 			
 			}
-			player2Score = player2.getPoints();
 			updateGUI(board,frame);
-			
-			
 			board = computer2.computerTurn(board, computer2.getColor());
-			computer2Score = computer2.getPoints();
 
 			player2.placed = false;
 			
@@ -105,6 +97,9 @@ public class Blokus {
 		
 			
 	}}
+	
+	//Method that update the colors of the Gui based of the board stat
+	//Aaron Wise
 		
 	public static void updateGUI( Board board, Gui frame ) {
 			
@@ -119,12 +114,3 @@ public class Blokus {
 			}
 		
 			
-		
-		
-	
-
-
-}
-	
-	
-
